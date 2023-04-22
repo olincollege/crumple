@@ -11,6 +11,8 @@
 
 add_library(datatypes datatypes.c datatypes.h)
 
+add_library(helpers helpers.c helpers.h)
+
 add_library(collapser collapser.c collapser.h)
 target_link_libraries(collapser PRIVATE datatypes)
 
