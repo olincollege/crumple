@@ -67,5 +67,12 @@ int free_tile(tile*);
 
 edge_t* make_edges(char* all_edges);
 
+void image_free(Image *img);
+
+void image_create(Image *img, int width, int height, int channels, bool zeroed);
+
+void image_load(Image *img, const char *filename);
+
+
 
 
