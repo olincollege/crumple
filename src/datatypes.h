@@ -2,6 +2,9 @@
 #pragma once
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 typedef struct {
 
@@ -36,8 +39,19 @@ typedef struct {
   edge_t edges;
 } tile;
 
+enum allocation_type {
+    NO_ALLOCATION, SELF_ALLOCATED, STB_ALLOCATED
+};
 
-matrix* make_matrix(int width, int height);
+typedef struct {
+    int width;
+    int height;
+    int channels;
+    size_t size;
+    uint8_t *data;
+    enum allocation_type allocation_;
+} Image;
+
 
 int free_matrix(matrix* matp);
 
