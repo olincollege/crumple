@@ -34,7 +34,7 @@ typedef struct {
 
 typedef struct {
 
-  char* img_name = "";
+  char* img_name;
   int rotation;
   edge_t edges;
 } tile;
