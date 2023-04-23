@@ -15,8 +15,8 @@ enum {
  *
  * Given the pointer to the user submitted yaml file, generate an array of
  * arrays of strings containing the contents of the yaml file (as plaintext).
- * The first array of strings contains the "rules" section, the second the
- * "image location" section, the third the "tiles" section.
+ * The zeroth array of strings contains the "rules" section, the first the
+ * "image location" section, the second the "tiles" section.
  *
  * @param input_yaml_file The pointer to the file object representing the input
  * yaml
@@ -84,11 +84,14 @@ char*** parse_tile_section(char** tile_text, int* num_tile_configs);
  *
  * @param tile_config_text An array of strings, the first being the "image name"
  * line for the tile config block from the yaml and the second the "edges" line
+ * @param image_location The directory (with trailing backslash) containing the
+ * images
  *
- * @return An array of strings, the first being the image name and the second
- * being the edges
+ * @return An array of strings, the first being the image location and the
+ * second being the edges
  */
-char** parse_individual_tile_config_textblock(char** tile_config_text);
+char** parse_individual_tile_config_textblock(char** tile_config_text,
+                                              char* image_location);
 
 /**
  * Creates tile struct(s) for the given edges based on the defined rules.
@@ -120,8 +123,8 @@ tile** generate_tile_rotations(char* edges_, int* rules, char* im_name,
  *
  * @return The updated tile array
  */
-tile** add_to_tile_array(tile** current_array, size_t num_added_tiles,
-                         tile** array_to_add);
+tile** add_to_tile_pointer_array(tile** current_array, size_t num_added_tiles,
+                                 tile** array_to_add);
 
 /**
  * Generate tiles from a user submitted yaml input file
