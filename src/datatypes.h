@@ -8,14 +8,14 @@
 
 typedef struct {
 
-  int x;
-  int y;
+  size_t x;
+  size_t y;
 
 } coords;
 
 typedef struct {
 
-  int entropy;
+  size_t entropy;
 
 } cell;
 
@@ -35,7 +35,7 @@ typedef struct {
 typedef struct {
 
   char* img_name;
-  int rotation;
+  size_t rotation;
   edge_t edges;
 } tile;
 
@@ -60,7 +60,7 @@ cell* make_cell(tile* tiles);
 
 int free_cell(cell* cellp);
 
-tile* make_tile(FILE* image_file, int rotation, edge_t* edges_);
+tile* make_tile(FILE* image_file, size_t rotation, edge_t* edges_);
 // check if this is the correct way to change 
 
 int free_tile(tile*);
