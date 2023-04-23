@@ -1,8 +1,10 @@
 #include <math.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "datatypes.h"
+#include "helpers.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb/stb_image.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
@@ -53,4 +55,17 @@ void image_load(Image *img, const char *filename){
   }
 }
 
-
+void image_save(Image *img, const char *filename){
+  const int quality_knob = 100;
+  
+  if(str_ends_in(filename,".jpg") || str_ends_in(filename,".JPG") || \
+      str_ends_in(filename,".jpeg") ||str_ends_in(filename,".JPEG")){
+    stbi_write_jpg(filename, img->width, img->height, img->channels, img->data,quality_knob);
+  } 
+  else if(str_ends_in(filename,".png") ||str_ends_in(filename,".PNG")){
+    stbi_write_png(filename, img->width, img->height, img->channels, img->data,img->width * img->height);
+  } 
+  else{
+    ON_ERROR_EXIT(false, "Incorrect Image format");
+  }
+}
