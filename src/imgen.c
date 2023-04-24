@@ -79,24 +79,27 @@ void place_image(Image *bkg, Image *tile, coords posi){
   size_t tileWlen = (size_t) tile->width*tile->channels;
   size_t rowlen =   (size_t) bkg->width * bkg->channels;
 
-  size_t first_c =  (size_t) real.x * bkg->channels;
+  size_t first_c =  real.x * bkg->channels;
   size_t first_r =  real.y * rowlen;
 
-  size_t last_row = first_r * tileWlen * tile->height;
-  size_t last_col = first_c * tileWlen;
+  size_t last_row = first_r + rowlen * tile->height;
+  size_t last_col = first_c + tileWlen;
 
   size_t tile_offset = 0;
 
-  for (size_t row = first_r; row<last_row; row += (size_t) bkg->width*bkg->channels){
-    tile_offset += tile->width;
-    for (size_t col = first_c; col<last_col; col += bkg->channels){
-//      bkg->data[row+col + 0] = tile->data[tile_offset+col];
-//      bkg->data[row+col + 1] = tile->data[tile_offset+col+1];
-//      bkg->data[row+col + 2] = tile->data[tile_offset+col+2];
-      for(size_t step = 0; step<tile->channels;++step){
-        bkg->data[row+col + step] = tile->data[tile_offset+col+step];
-      }
+  //printf("%zu, %zu, %zu, %zu, %zu",tileWlen,first_r, first_r,last_row,last_col);
+  for (size_t row = first_r; row!=last_row; row += rowlen){
+    for (size_t col = first_c; col!=last_col; col += bkg->channels){
+      size_t t_col = col-first_c;
+      bkg->data[row+col] = tile->data[tile_offset+t_col];
+      bkg->data[row+col+1] = tile->data[tile_offset+t_col+1];
+      bkg->data[row+col+2] = tile->data[tile_offset+t_col+2];
+//      for(size_t step = 0; step<tile->channels;++step){
+//        bkg->data[row+col + step] = tile->data[tile_offset+col+step];
+//        printf("%d\n",tile->data[tile_offset+col+step]);
+//      }
     }
+    tile_offset += tile->width*tile->channels;
   }
 }
 
@@ -127,6 +130,18 @@ int main(void) {
   image_load(&bg_img,bg_filename);
   ON_ERROR_EXIT(bg_img.data==NULL, "Image couldn't be loaded");
   printf("Success!\nLoaded img (%ix%i), and %i channels\n", bg_img.width, bg_img.height, bg_img.channels);
+
+  // test whole bg tiling
+  //for (size_t x_c = 0; x_c < bg_img.width/tile_img.width;++x_c){
+  //  for (size_t y_c = 0; y_c < bg_img.height/tile_img.height;++y_c){ 
+  //    coords coors= {.x=x_c,.y=y_c}; 
+  //    place_image(&bg_img, &tile_img, coors);
+  //  }
+  //}
+  coords coors= {.x=2,.y=0};
+ 
+  place_image(&bg_img, &tile_img, coors);
+  image_save(&bg_img, "newimg.jpg");
 
   image_free(&tile_img);
   image_free(&bg_img);
