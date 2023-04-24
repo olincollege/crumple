@@ -115,16 +115,18 @@ tile** generate_tile_rotations(char* edges_, int* rules, char* im_name,
 /**
  * Add an array of tile pointers to an existing array of tile structs.
  *
- * Extend the array and add the new tile pointers to the end.
+ * Extend the array and add the new tile pointers to the end. Also update the
+ * variable storing the length of the array.
  *
  * @param current_array The array to extend
  * @param num_added_tiles The number of tiles being added to the array
  * @param array_to_add The array being added to the end of the existing one
+ * @param curr_len The current length of current_array, gets updated
  *
  * @return The updated tile array
  */
 tile** add_to_tile_pointer_array(tile** current_array, size_t num_added_tiles,
-                                 tile** array_to_add);
+                                 tile** array_to_add, size_t* curr_len);
 
 /**
  * Generate tiles from a user submitted yaml input file
