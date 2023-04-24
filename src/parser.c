@@ -31,7 +31,7 @@ tile** generate_tiles(char* input_yaml_filename) {
   char* im_location = parse_imdir(sectioned_text[1]);
   int tile_config_num = 0;
   char*** tile_config_blocks =
-      parse_tile_section(sectioned_text[2], tile_config_num);
+      parse_tile_section(sectioned_text[2], &tile_config_num);
   char** parsed_tile_config;
   tile** tiles_from_config;
   size_t num_gen;
