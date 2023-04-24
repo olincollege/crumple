@@ -13,15 +13,6 @@ do{ \
     exit(1); \ 
   }\
 }while(0)
-// errors if cond passed is true
-#define ON_ERROR_EXIT(cond, message) \ 
-do{ \
-  if(cond){ \ 
-    printf("ERROR in function: %s at line %d\n", __func__, __LINE__ ); \
-    perror((message)); \ 
-    exit(1); \ 
-  }\
-}while(0)
 
 /** 
  * Determine if string ends in a given substring.
