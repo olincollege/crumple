@@ -116,7 +116,7 @@ tile** generate_tile_rotations(char* edges_, int* rules, char* im_name,
  * Add an array of tile pointers to an existing array of tile structs.
  *
  * Extend the array and add the new tile pointers to the end. Also update the
- * variable storing the length of the array.
+ * variable storing the length of the array. Frees the array that is added.
  *
  * @param current_array The array to extend
  * @param num_added_tiles The number of tiles being added to the array
