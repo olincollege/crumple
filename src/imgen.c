@@ -87,7 +87,6 @@ void place_image(Image *bkg, Image *tile, coords posi){
 
   size_t tile_offset = 0;
 
-  //printf("%zu, %zu, %zu, %zu, %zu",tileWlen,first_r, first_r,last_row,last_col);
   for (size_t row = first_r; row!=last_row; row += rowlen){
     for (size_t col = first_c; col!=last_col; col += bkg->channels){
       size_t t_col = col-first_c;
