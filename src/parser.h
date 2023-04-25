@@ -96,31 +96,30 @@ char* parse_im_location_section(char** image_location_text);
  * @param num_tile_configs An int pointer to be written to with the number of
  * "tile configs"/blocks this function creates
  *
- * @return An array of arrays of strings, each of the subarrays containing one
- * tile configuration block of text
+ * @return An array of tile_textblocks pointers, each of the tile_textblocks
+ * containing one tile configuration block of text
  */
-char*** parse_tiles_section(char** tile_text, int* num_tile_configs);
+tile_textblock** parse_tiles_section(char** tile_text, int* num_tile_configs);
 
 /**
  * Parses a configuration textblock for a tile as returned from
  * parse_tile_section.
  *
- * Given the pointer to a tile configration textblock, get the corresponding
- * image name and edges.
+ * Given the pointer to an unparsed tile textblock, parse the lines of content
+ * and generate a corresponding parsed tile texblock.
  *
  * Errors and returns nothing if the tile parsing fails (specifies as
  * much as possible in the error message what went wrong).
  *
- * @param tile_config_text An array of strings, the first being the "image name"
- * line for the tile config block from the yaml and the second the "edges" line
- * @param image_location The directory (with trailing backslash) containing the
- * images
+ * @param textblock The pointer to the textblock struct containing the lines
+ * from the input yaml file corresponding to the given tile
+ * @param image_location The directory (with trailing forward slash) containing
+ * the images
  *
- * @return An array of strings, the first being the image location and the
- * second being the edges
+ * @return The pointer to the generated parsed tile textblock
  */
-char** parse_individual_tile_config_textblock(char** tile_config_text,
-                                              char* image_location);
+parsed_tile_textblock* parse_individual_tile_config_textblock(
+    tile_textblock* textblock, char* image_location);
 
 /**
  * Creates tile struct(s) for the given edges based on the defined rules.
@@ -132,16 +131,16 @@ char** parse_individual_tile_config_textblock(char** tile_config_text,
  * Errors and returns nothing if the tile generation fails (specifies as
  * much as possible in the error message what went wrong).
  *
- * @param edges_ The edges of the tile in its unrotated state
+ * @param parsed_block The parsed tile textblock containing the information
+ * about the tile (currently edges and im_name)
  * @param rules The rules to be followed while generating tiles (such as whether
  * or not rotations are allowed)
- * @param im_name The name of the image file associated with this tile
  * @param num_generated Written to, the number of tiles this function generates
  *
  * @return An array of tile pointers, generated from the input edges, rules, and
  * image name
  */
-tile** generate_tile_rotations(char* edges_, int* rules, char* im_name,
+tile** generate_tile_rotations(parsed_tile_textblock* parsed_block, int* rules,
                                size_t* num_generated);
 
 /**

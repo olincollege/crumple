@@ -4,34 +4,34 @@
 
 split_yaml* get_text_split_sections(FILE* input_yaml_file) {}
 
-int* parse_rules(char** rules_text) {}
+int* parse_rules_section(char** rules_text) {}
 
-char* parse_im_location(char** image_location_text) {}
+char* parse_im_location_section(char** image_location_text) {}
 
-char*** parse_tile_section(char** tile_text, int* num_tile_configs) {}
+tile_textblock** parse_tiles_section(char** tile_text, int* num_tile_configs) {}
 
-char** parse_individual_tile_config_textblock(char** tile_config_text,
-                                              char* image_location) {}
+parsed_tile_textblock* parse_individual_tile_config_textblock(
+    tile_textblock* textblock, char* image_location) {}
 
-tile** generate_tile_rotations(char* edges_, int* rules, char* im_name,
+tile** generate_tile_rotations(parsed_tile_textblock* parsed_block, int* rules,
                                size_t* num_generated) {
-  FILE* image_file = fopen(im_name, "r");
+  FILE* image_file = fopen(parsed_block->im_name, "r");
   size_t arr_index = 0;
   size_t num_rots = 1 + rules[0] * 2 + rules[1];
   tile** tiles = malloc(sizeof(tile*) * num_rots);
-  edge_t* rot_0_edges = make_edges(edges_, 0);
+  edge_t* rot_0_edges = make_edges(parsed_block->edges, 0);
   tiles[arr_index] = make_tile(image_file, 0, rot_0_edges);
   ++arr_index;
   if (rules[0]) {  // 90 degree rotations
-    edge_t* rot_1_edges = make_edges(edges_, 1);
+    edge_t* rot_1_edges = make_edges(parsed_block->edges, 1);
     tiles[arr_index] = make_tile(image_file, 0, rot_1_edges);
     ++arr_index;
-    edge_t* rot_3_edges = make_edges(edges_, 3);
+    edge_t* rot_3_edges = make_edges(parsed_block->edges, 3);
     tiles[arr_index] = make_tile(image_file, 0, rot_3_edges);
     ++arr_index;
   }
   if (rules[1]) {  // 180 degree rotations
-    edge_t* rot_2_edges = make_edges(edges_, 2);
+    edge_t* rot_2_edges = make_edges(parsed_block->edges, 2);
     tiles[arr_index] = make_tile(image_file, 0, rot_2_edges);
   }
   return tiles;
@@ -55,19 +55,18 @@ tile** generate_tiles(char* input_yaml_filename) {
   int* rules = parse_rules(sectioned_yaml->rules_section);
   char* im_location = parse_imdir(sectioned_yaml->imdir_section);
   int tile_config_num = 0;
-  char*** tile_config_blocks =
+  tile_textblock** tile_config_blocks =
       parse_tile_section(sectioned_yaml->tiles_section, &tile_config_num);
-  char** parsed_tile_config;
+  parsed_tile_textblock* parsed_tile;
   tile** tiles_from_config;
   size_t num_gen;
   tile** tiles = malloc(sizeof(tile*));
   size_t tiles_len = 0;
   for (int i = 0; i < tile_config_num; i++) {
-    parsed_tile_config = parse_individual_tile_config_textblock(
-        tile_config_blocks[i], im_location);
+    parsed_tile = parse_individual_tile_config_textblock(tile_config_blocks[i],
+                                                         im_location);
 
-    tiles_from_config = generate_tile_rotations(parsed_tile_config[0], rules,
-                                                im_location, num_gen);
+    tiles_from_config = generate_tile_rotations(parsed_tile, rules, num_gen);
     tiles =
         add_to_tile_pointer_array(tiles, num_gen, tiles_from_config, tiles_len);
   }

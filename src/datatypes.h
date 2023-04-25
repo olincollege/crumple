@@ -52,6 +52,16 @@ typedef struct {
   char** tiles_section;
 } split_yaml;
 
+typedef struct {
+  char* im_name_line;
+  char* edges_line;
+} tile_textblock;
+
+typedef struct {
+  char* im_name;
+  char* edges;
+} parsed_tile_textblock;
+
 int free_matrix(matrix* matp);
 
 cell* make_cell(tile* tiles);
