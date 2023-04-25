@@ -10,20 +10,20 @@ enum {
 };  // allow 90 degree rotations, allow 180 degree
     // rotations
 
-enum { YAML_START_LINE = "---" };
-enum { YAML_RULES_HEADER = "#rules" };
-enum { YAML_IM_LOCATION_HEADER = "#im_location" };
-enum { YAML_TILES_HEADER = "#tiles" };
-enum { YAML_END_MARKER = "#EOF" };
+const char YAML_START_LINE[] = "---";
+const char YAML_RULES_HEADER[] = "#rules";
+const char YAML_IM_LOCATION_HEADER[] = "#im_location";
+const char YAML_TILES_HEADER[] = "#tiles";
+const char YAML_END_MARKER[] = "#EOF";
 
-enum { YAML_90_DEGREE_RULE_START = "allow-90-degree-rotations: " };
-enum { YAML_180_DEGREE_RULE_START = "allow-180-degree-rotations: " };
+const char YAML_90_DEGREE_RULE_START[] = "allow-90-degree-rotations: ";
+const char YAML_180_DEGREE_RULE_START[] = "allow-180-degree-rotations: ";
 
-enum { YAML_IM_LOCATION_START = "im_location: " };
+const char YAML_IM_LOCATION_START[] = "im_location: ";
 
-enum { YAML_TILE_START = "tile:" };
-enum { YAML_TILE_IM_NAME_START = " - im_name: " };
-enum { YAML_TILE_EDGES_START = " - edges: " };
+const char YAML_TILE_START[] = "tile:";
+const char YAML_TILE_IM_NAME_START[] = " - im_name: ";
+const char YAML_TILE_EDGES_START[] = " - edges: ";
 
 /**
  * Get the text from the input yaml file
