@@ -2,7 +2,22 @@
 
 split_yaml* get_text_split_sections(FILE* input_yaml_file) {}
 
-int* parse_rules_section(char** rules_text) {}
+int* parse_rules_section(char** rules_text) {
+  char* line = rules_text[0];
+  while (line) {
+    if (strncmp(line, YAML_180_DEGREE_RULE_START,
+                strlen(YAML_180_DEGREE_RULE_START)) == 0) {
+      // logic to pull out the value and set something
+    } else if (strncmp(line, YAML_90_DEGREE_RULE_START,
+                       strlen(YAML_90_DEGREE_RULE_START)) == 0) {
+      // logic to pull out the value and set something
+    } else {
+      ++line;
+    }
+  }
+  // if both values are set, return the array
+  // else error and exit
+}
 
 char* parse_im_location_section(char** image_location_text) {
   char* line = image_location_text[0];
