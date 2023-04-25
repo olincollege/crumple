@@ -106,8 +106,8 @@ int main(void) {
   // ...
   Image tile_img, bg_img;
 
-  char* bg_filename = "blank.jpg";
-  char* tile_filename = "small.png";
+  char* bg_filename = "blank.png";
+  char* tile_filename = "tile.png";
   
   char buf[256];
   
@@ -145,3 +145,4 @@ int main(void) {
   image_free(&tile_img);
   image_free(&bg_img);
 }
+
