@@ -2,7 +2,7 @@
 
 #include "helpers.h"
 
-char*** get_text_split_sections(FILE* input_yaml_file) {}
+split_yaml* get_text_split_sections(FILE* input_yaml_file) {}
 
 int* parse_rules(char** rules_text) {}
 

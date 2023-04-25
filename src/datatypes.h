@@ -46,6 +46,12 @@ typedef struct {
   enum allocation_type allocation_;
 } Image;
 
+typedef struct {
+  char** rules_section;
+  char** imdir_section;
+  char** tiles_section;
+} split_yaml;
+
 int free_matrix(matrix* matp);
 
 cell* make_cell(tile* tiles);

@@ -13,18 +13,17 @@ enum {
 /**
  * Get the text from the input yaml file
  *
- * Given the pointer to the user submitted yaml file, generate an array of
- * arrays of strings containing the contents of the yaml file (as plaintext).
- * The zeroth array of strings contains the "rules" section, the first the
- * "image location" section, the second the "tiles" section.
+ * Given the pointer to the user submitted yaml file, generate a split_yaml
+ * struct containing the rules section, imdir section, and tiles sections of the
+ * input.
  *
  * @param input_yaml_file The pointer to the file object representing the input
  * yaml
  *
- * @return The array of arrays of strings containing the contents of the file
- * split into sections
+ * @return The pointer to the split_yaml struct containing the contents of the
+ * input yaml split into sections
  */
-char*** get_text_split_sections(FILE* input_yaml_file);
+split_yaml* get_text_split_sections(FILE* input_yaml_file);
 
 /**
  * Parses the "rules" section of the input text.
