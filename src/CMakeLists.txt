@@ -24,3 +24,6 @@ target_link_libraries(imgen PRIVATE datatypes helpers)
 
 add_executable(main main.c)
 target_link_libraries(main PRIVATE collapser parser imgen)
+
+add_executable(parsing_exec parsing_exec.c)
+target_link_libraries(parsing_exec PRIVATE collapser parser imgen)
