@@ -19,6 +19,7 @@ char* parse_im_location_section(char** image_location_text) {
               im_location_line_len - strlen(YAML_IM_LOCATION_START));
       strncpy(im_location + image_dir_len, "/",
               2);  // should result in null termination
+      return im_location;
     } else {
       ++line;
     }
