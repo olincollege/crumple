@@ -41,7 +41,7 @@ split_yaml* get_text_split_sections(FILE* input_yaml_file);
  *
  * @return An array of ints corresponding to rules statuses
  */
-int* parse_rules(char** rules_text);
+int* parse_rules_section(char** rules_text);
 
 /**
  * Parses the "image location" section of the input text.
@@ -56,7 +56,7 @@ int* parse_rules(char** rules_text);
  * @return The string corresponding to the location of the images with a
  * trailing forward slash.
  */
-char* parse_imdir(char** image_location_text);
+char* parse_im_location_section(char** image_location_text);
 
 /**
  * Parses the "tiles" section of the input text.
@@ -72,7 +72,7 @@ char* parse_imdir(char** image_location_text);
  * @return An array of arrays of strings, each of the subarrays containing one
  * tile configuration block of text
  */
-char*** parse_tile_section(char** tile_text, int* num_tile_configs);
+char*** parse_tiles_section(char** tile_text, int* num_tile_configs);
 
 /**
  * Parses a configuration textblock for a tile as returned from

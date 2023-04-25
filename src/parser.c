@@ -6,7 +6,7 @@ split_yaml* get_text_split_sections(FILE* input_yaml_file) {}
 
 int* parse_rules(char** rules_text) {}
 
-char* parse_imdir(char** image_location_text) {}
+char* parse_im_location(char** image_location_text) {}
 
 char*** parse_tile_section(char** tile_text, int* num_tile_configs) {}
 
