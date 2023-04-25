@@ -1,17 +1,47 @@
 #include "parser.h"
 
-#include "helpers.h"
-
 split_yaml* get_text_split_sections(FILE* input_yaml_file) {}
 
 int* parse_rules_section(char** rules_text) {}
 
 char* parse_im_location_section(char** image_location_text) {}
 
-tile_textblock** parse_tiles_section(char** tile_text, int* num_tile_configs) {}
+tile_textblock** add_to_tile_textblock_array(tile_textblock** current_array,
+                                             tile_textblock* block_to_add,
+                                             size_t* curr_len) {
+  tile_textblock** updated_array =
+      realloc(current_array, sizeof(tile_textblock*) * (*curr_len + 1));
+
+  memcpy(updated_array[*curr_len], block_to_add);
+  *curr_len++;
+  free_tile_textblock(block_to_add);
+  return updated_array;
+}
+
+tile_textblock** parse_tiles_section(char** tile_text,
+                                     size_t* num_tile_configs) {
+  tile_textblock** tile_textblock_arr = malloc(sizeof(tile_textblock*));
+  char* line = tile_text[0];
+  while (line) {
+    if (*line == YAML_TILE_START) {
+      tile_textblock* textblock = make_tile_textblock(*(line + 1), *(line + 2));
+      tile_textblock_arr = add_to_tile_textblock_array(
+          tile_textblock_arr, textblock, num_tile_configs);
+      line += 3;
+    } else {
+      ++line;
+    }
+  }
+  return tile_textblock_arr;
+}
 
 parsed_tile_textblock* parse_individual_tile_config_textblock(
-    tile_textblock* textblock, char* image_location) {}
+    tile_textblock* textblock, char* image_location) {
+  parsed_tile_textblock* parsed_block =
+      make_parsed_tile_textblock(textblock, image_location);
+  free_tile_textblock(textblock);
+  return parsed_block;
+}
 
 tile** generate_tile_rotations(parsed_tile_textblock* parsed_block, int* rules,
                                size_t* num_generated) {
@@ -42,7 +72,7 @@ tile** add_to_tile_pointer_array(tile** current_array, size_t num_added_tiles,
   tile** updated_array =
       realloc(current_array, sizeof(tile*) * (*curr_len + num_added_tiles));
   for (size_t i = 0; i < num_added_tiles; i++) {
-    updated_array[*curr_len + i] = array_to_add[i];
+    memcpy(updated_array[*curr_len + i], array_to_add[i]);
   }
   *curr_len += num_added_tiles;
   free(array_to_add);

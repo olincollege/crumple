@@ -1,6 +1,7 @@
 #pragma once
 
 #include "datatypes.h"
+#include "helpers.h"
 
 enum { MAX_YAML_LINE_LENGTH = 64 };
 enum { MAX_YAML_NUM_LINES = 1024 };
@@ -68,6 +69,19 @@ int* parse_rules_section(char** rules_text);
 char* parse_im_location_section(char** image_location_text);
 
 /**
+ * Adds a tile_textblock to a tile textblock pointer array and updates the
+ * length of that array.
+ *
+ * Given an array of tile textblock pointers, a tile texblock pointer to add,
+ * and a size_t containing the current length of that array, add the textblock
+ * pointer, update the length, deal with resizing the current array and free the
+ * memory of the textblock added.
+ */
+tile_textblock** add_to_tile_textblock_array(tile_textblock** current_array,
+                                             tile_textblock* block_to_add,
+                                             size_t* curr_len);
+
+/**
  * Parses the "tiles" section of the input text.
  *
  * Given the pointer to the tiles text and an int pointer to be written to,
@@ -80,14 +94,15 @@ char* parse_im_location_section(char** image_location_text);
  * much as possible in the error message what went wrong).
  *
  * @param tile_text The section of text containing the tiles text.
- * @param num_tile_configs An int pointer to be written to with the number of
+ * @param num_tile_configs An size_t pointer to be written to with the number of
  * "tile configs"/blocks this function creates
  *
  * @return An array of tile_textblocks pointers, each of the tile_textblocks
  * containing the lines of text from the section of the yaml corresponding to
  * the tile.
  */
-tile_textblock** parse_tiles_section(char** tile_text, int* num_tile_configs);
+tile_textblock** parse_tiles_section(char** tile_text,
+                                     size_t* num_tile_configs);
 
 /**
  * Parses a configuration textblock for a tile as returned from
