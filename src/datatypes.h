@@ -62,12 +62,6 @@ int free_cell(cell* cellp);
 tile* make_tile(FILE* image_file, size_t rotation, edge_t* edges_);
 // check if this is the correct way to change
 
-int free_tile(tile*);  // include freeing the edges
+int free_tile(tile* tile);
 
 edge_t* make_edges(char* all_edges, size_t rotation);
-
-void image_free(Image* img);
-
-void image_create(Image* img, int width, int height, int channels, bool zeroed);
-
-void image_load(Image* img, const char* filename);

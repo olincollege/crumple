@@ -2,6 +2,8 @@
 
 #include <stdnoreturn.h>  // noreturn
 
+#include "datatypes.h"
+
 // errors if cond passed is true
 #define ON_ERROR_EXIT(cond, message) \ 
 do{ \
@@ -24,7 +26,3 @@ do{ \
  * @param error_msg The error message to print.
  */
 noreturn void error_and_exit(const char* error_msg);
-
-
-
-
