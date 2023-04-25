@@ -51,12 +51,12 @@ tile** add_to_tile_pointer_array(tile** current_array, size_t num_added_tiles,
 
 tile** generate_tiles(char* input_yaml_filename) {
   FILE* input_yaml = fopen(input_yaml_filename, "r");
-  char*** sectioned_text = get_text_split_sections(input_yaml);
-  int* rules = parse_rules(sectioned_text[0]);
-  char* im_location = parse_imdir(sectioned_text[1]);
+  split_yaml* sectioned_yaml = get_text_split_sections(input_yaml);
+  int* rules = parse_rules(sectioned_yaml->rules_section);
+  char* im_location = parse_imdir(sectioned_yaml->imdir_section);
   int tile_config_num = 0;
   char*** tile_config_blocks =
-      parse_tile_section(sectioned_text[2], &tile_config_num);
+      parse_tile_section(sectioned_yaml->tiles_section, &tile_config_num);
   char** parsed_tile_config;
   tile** tiles_from_config;
   size_t num_gen;
