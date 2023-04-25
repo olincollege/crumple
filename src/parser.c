@@ -103,6 +103,7 @@ tile** generate_tile_rotations(parsed_tile_textblock* parsed_block, int* rules,
     edge_t* rot_2_edges = make_edges(parsed_block->edges, 2);
     tiles[arr_index] = make_tile(image_file, 0, rot_2_edges);
   }
+  free_parsed_tile_textblock(parsed_block);
   return tiles;
 }
 
@@ -139,4 +140,7 @@ tile** generate_tiles(char* input_yaml_filename) {
     tiles =
         add_to_tile_pointer_array(tiles, num_gen, tiles_from_config, tiles_len);
   }
+  free(im_location);
+  free(rules);
+  return tiles;
 }
