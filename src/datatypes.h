@@ -6,6 +6,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+enum { EDGES_CHAR_ARRAY_LEN = 5 };  // 4 + 1 for null pointer
+
+const char YAML_START_LINE[] = "---";
+const char YAML_RULES_HEADER[] = "#rules";
+const char YAML_IM_LOCATION_HEADER[] = "#im_location";
+const char YAML_TILES_HEADER[] = "#tiles";
+const char YAML_END_MARKER[] = "#EOF";
+
+const char YAML_90_DEGREE_RULE_START[] = "allow-90-degree-rotations: ";
+const char YAML_180_DEGREE_RULE_START[] = "allow-180-degree-rotations: ";
+
+const char YAML_IM_LOCATION_START[] = "im_location: ";
+
+const char YAML_TILE_START[] = "tile:";
+const char YAML_TILE_IM_NAME_START[] = " - im_name: ";
+const char YAML_TILE_EDGES_START[] = " - edges: ";
+
 typedef struct {
   size_t x;
   size_t y;
@@ -57,10 +74,18 @@ typedef struct {
   char* edges_line;
 } tile_textblock;
 
+tile_textblock* make_tile_textblock(char* im_name_line_, char* edges_line_);
+
+void free_tile_textblock(tile_textblock* tile_textblock_);
+
 typedef struct {
   char* im_name;
   char* edges;
 } parsed_tile_textblock;
+
+parsed_tile_textblock* make_parsed_tile_textblock(tile_textblock* textblock_);
+
+void free_parsed_tile_textblock(parsed_tile_textblock* parsed_tile_textblock_);
 
 int free_matrix(matrix* matp);
 
