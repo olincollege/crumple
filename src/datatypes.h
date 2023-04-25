@@ -42,7 +42,7 @@ typedef struct {
 } matrix;
 
 typedef struct {
-  char tile_edges[4];
+  char *tile_edges;
 
 } edge_t;
 
@@ -100,4 +100,15 @@ tile* make_tile(FILE* image_file, size_t rotation, edge_t* edges_);
 
 int free_tile(tile* tile);
 
-edge_t* make_edges(char* all_edges, size_t rotation);
+edge_t* make_edges(char* all_edges);
+
+/**
+ * "Rotate" an edge struct tile edges counter clockwise.
+ * 
+ * Given a pointer to an edges struct and a rotation size_t, the program shifts the char 
+ * string left by the value of the rotation variable.
+ *
+ * @param *edges A pointer to the edges struct that will be manipulated.
+ * @param rotation A size_t variable that defines the shift of chars in the string.
+ */
+void rotate_edges(edge_t *edges, size_t rotation);

@@ -6,13 +6,19 @@
 #include <stdlib.h>
 #include <string.h>
 
-edge_t* make_edges(char* all_edges, size_t rotation) {
-  char rotated[4];
-  memcpy(rotated + rotation, all_edges, 4 - rotation);
-  memcpy(rotated, all_edges + 4 - rotation, rotation);
-  edge_t edges = {rotated};
-  return &edges;
-}
+edge_t* make_edges(char* all_edges) {
+  char *temp = malloc(sizeof(char)*4);
+  temp = all_edges;
+  edge_t *edges= malloc(sizeof(edge_t));
+  edges->tile_edges = temp;
+  return edges;
+}// this needs a sanity check
+
+void rotate_edges(edge_t *edges, size_t rotation) {
+  char *temp = edges->tile_edges;
+  memcpy(edges->tile_edges + rotation, edges->tile_edges, 4 - rotation);
+  memcpy(edges->tile_edges, temp + 4 - rotation, rotation);
+}// this needs a sanity check
 
 tile_textblock* make_tile_textblock(char* im_name_line_, char* edges_line_) {
   tile_textblock* textblock = malloc(sizeof(tile_textblock));
