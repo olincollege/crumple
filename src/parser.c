@@ -4,7 +4,28 @@ split_yaml* get_text_split_sections(FILE* input_yaml_file) {}
 
 int* parse_rules_section(char** rules_text) {}
 
-char* parse_im_location_section(char** image_location_text) {}
+char* parse_im_location_section(char** image_location_text) {
+  char* line = image_location_text[0];
+  while (line) {
+    if (strncmp(line, YAML_IM_LOCATION_START, strlen(YAML_IM_LOCATION_START)) ==
+        0) {
+      size_t im_location_line_len = (size_t)strlen(line);
+      size_t image_dir_len =
+          im_location_line_len - strlen(YAML_IM_LOCATION_START);
+      char* im_location =
+          malloc(sizeof(char) *
+                 (image_dir_len + 2));  // +1 for "/", +1 for null termination
+      strncpy(im_location, *(line) + strlen(YAML_IM_LOCATION_START),
+              im_location_line_len - strlen(YAML_IM_LOCATION_START));
+      strncpy(im_location + image_dir_len, "/",
+              2);  // should result in null termination
+    } else {
+      ++line;
+    }
+  }
+  // should have hit the image_location line before getting to the end of the
+  // text, error and exit here
+}
 
 tile_textblock** add_to_tile_textblock_array(tile_textblock** current_array,
                                              tile_textblock* block_to_add,
@@ -24,6 +45,8 @@ tile_textblock** parse_tiles_section(char** tile_text,
   char* line = tile_text[0];
   while (line) {
     if (*line == YAML_TILE_START) {
+      // throw some logic in here to check that the lines we're putting into
+      // this textblock are right format, error if not
       tile_textblock* textblock = make_tile_textblock(*(line + 1), *(line + 2));
       tile_textblock_arr = add_to_tile_textblock_array(
           tile_textblock_arr, textblock, num_tile_configs);
