@@ -33,16 +33,19 @@ void free_tile_textblock(tile_textblock* tile_textblock_) {
   free(tile_textblock_);
 }
 
-parsed_tile_textblock* make_parsed_tile_textblock(tile_textblock* textblock_) {
+parsed_tile_textblock* make_parsed_tile_textblock(tile_textblock* textblock_,
+                                                  char* image_location) {
   parsed_tile_textblock* parsed_textblock = malloc(sizeof(parsed_textblock));
   size_t edges_len = EDGES_CHAR_ARRAY_LEN;
-  size_t im_name_len =
-      strlen(textblock_->im_name_line) - strlen(YAML_TILE_IM_NAME_START) + 1;
+  size_t im_name_len = strlen(textblock_->im_name_line) +
+                       strlen(image_location) -
+                       strlen(YAML_TILE_IM_NAME_START) + 1;
   parsed_textblock->edges = malloc(sizeof(char) * edges_len);
   parsed_textblock->im_name = malloc(sizeof(char) * im_name_len);
   strncpy(parsed_textblock->edges,
           textblock_->edges_line + strlen(YAML_TILE_EDGES_START), edges_len);
-  strncpy(parsed_textblock->im_name,
+  strncpy(parsed_textblock->im_name, image_location, strlen(image_location));
+  strncpy(parsed_textblock->im_name + strlen(image_location),
           textblock_->im_name_line + strlen(YAML_TILE_IM_NAME_START),
           im_name_len);
   return parsed_textblock;

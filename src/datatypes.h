@@ -83,7 +83,8 @@ typedef struct {
   char* edges;
 } parsed_tile_textblock;
 
-parsed_tile_textblock* make_parsed_tile_textblock(tile_textblock* textblock_);
+parsed_tile_textblock* make_parsed_tile_textblock(tile_textblock* textblock_,
+                                                  char* image_location);
 
 void free_parsed_tile_textblock(parsed_tile_textblock* parsed_tile_textblock_);
 
