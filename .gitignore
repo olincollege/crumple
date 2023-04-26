@@ -1,5 +1,6 @@
 # dirs
 img/
+build/
 
 # Prerequisites
 *.d
