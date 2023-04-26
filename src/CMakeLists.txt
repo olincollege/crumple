@@ -17,7 +17,7 @@ add_library(helpers helpers.c helpers.h)
 # target_link_libraries(collapser PRIVATE datatypes helpers)
 
 add_library(parser parser.c parser.h)
-target_link_libraries(parser PRIVATE datatypes helpers)
+target_link_libraries(parser PRIVATE helpers datatypes)
 
 # add_library(imgen imgen.c imgen.h)
 # target_link_libraries(imgen PRIVATE datatypes helpers)
