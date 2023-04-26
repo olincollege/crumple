@@ -12,7 +12,7 @@ int* parse_rules_section(char** rules_text) {
                        strlen(YAML_90_DEGREE_RULE_START)) == 0) {
       // logic to pull out the value and set something
     } else {
-      ++line;
+      line++;
     }
   }
   // if both values are set, return the array
@@ -20,6 +20,7 @@ int* parse_rules_section(char** rules_text) {
 }
 
 char* parse_im_location_section(char** image_location_text) {
+  size_t index = 0;
   char* line = image_location_text[0];
   while (line) {
     if (strncmp(line, YAML_IM_LOCATION_START, strlen(YAML_IM_LOCATION_START)) ==
@@ -30,17 +31,18 @@ char* parse_im_location_section(char** image_location_text) {
       char* im_location =
           malloc(sizeof(char) *
                  (image_dir_len + 2));  // +1 for "/", +1 for null termination
-      strncpy(im_location, *(line) + strlen(YAML_IM_LOCATION_START),
+      strncpy(im_location, line + strlen(YAML_IM_LOCATION_START),
               im_location_line_len - strlen(YAML_IM_LOCATION_START));
-      strncpy(im_location + image_dir_len, "/",
+      strncpy(im_location + image_dir_len, "/\0",
               2);  // should result in null termination
       return im_location;
-    } else {
-      ++line;
     }
+    ++index;
+    line = image_location_text[index];
   }
   // should have hit the image_location line before getting to the end of the
   // text, error and exit here
+  return NULL;
 }
 
 tile_textblock** add_to_tile_textblock_array(tile_textblock** current_array,
@@ -49,7 +51,7 @@ tile_textblock** add_to_tile_textblock_array(tile_textblock** current_array,
   tile_textblock** updated_array =
       realloc(current_array, sizeof(tile_textblock*) * (*curr_len + 1));
 
-  memcpy(updated_array[*curr_len], block_to_add);
+  memcpy(updated_array[*curr_len], block_to_add, sizeof(block_to_add));
   *curr_len++;
   free_tile_textblock(block_to_add);
   return updated_array;
@@ -84,9 +86,9 @@ parsed_tile_textblock* parse_individual_tile_config_textblock(
 
 tile** generate_tile_rotations(parsed_tile_textblock* parsed_block, int* rules,
                                size_t* num_generated) {
-  FILE* image_file = fopen(parsed_block->im_name, "r");
+  FILE* image_file = fopen(parsed_block->im_name, "re");
   size_t arr_index = 0;
-  size_t num_rots = 1 + rules[0] * 2 + rules[1];
+  size_t num_rots = 1 + (size_t)rules[0] * 2 + (size_t)rules[1];
   tile** tiles = malloc(sizeof(tile*) * num_rots);
   edge_t* rot_0_edges = make_edges(parsed_block->edges, 0);
   tiles[arr_index] = make_tile(image_file, 0, rot_0_edges);
@@ -112,7 +114,7 @@ tile** add_to_tile_pointer_array(tile** current_array, size_t num_added_tiles,
   tile** updated_array =
       realloc(current_array, sizeof(tile*) * (*curr_len + num_added_tiles));
   for (size_t i = 0; i < num_added_tiles; i++) {
-    memcpy(updated_array[*curr_len + i], array_to_add[i]);
+    memcpy(updated_array[*curr_len + i], array_to_add[i], sizeof(tile*));
   }
   *curr_len += num_added_tiles;
   free(array_to_add);
@@ -120,25 +122,25 @@ tile** add_to_tile_pointer_array(tile** current_array, size_t num_added_tiles,
 }
 
 tile** generate_tiles(char* input_yaml_filename) {
-  FILE* input_yaml = fopen(input_yaml_filename, "r");
+  FILE* input_yaml = fopen(input_yaml_filename, "re");
   split_yaml* sectioned_yaml = get_text_split_sections(input_yaml);
-  int* rules = parse_rules(sectioned_yaml->rules_section);
-  char* im_location = parse_imdir(sectioned_yaml->imdir_section);
+  int* rules = parse_rules_section(sectioned_yaml->rules_section);
+  char* im_location = parse_im_location_section(sectioned_yaml->imdir_section);
   int tile_config_num = 0;
   tile_textblock** tile_config_blocks =
       parse_tile_section(sectioned_yaml->tiles_section, &tile_config_num);
   parsed_tile_textblock* parsed_tile;
   tile** tiles_from_config;
-  size_t num_gen;
+  size_t num_gen = 0;
   tile** tiles = malloc(sizeof(tile*));
   size_t tiles_len = 0;
   for (int i = 0; i < tile_config_num; i++) {
     parsed_tile = parse_individual_tile_config_textblock(tile_config_blocks[i],
                                                          im_location);
 
-    tiles_from_config = generate_tile_rotations(parsed_tile, rules, num_gen);
-    tiles =
-        add_to_tile_pointer_array(tiles, num_gen, tiles_from_config, tiles_len);
+    tiles_from_config = generate_tile_rotations(parsed_tile, rules, &num_gen);
+    tiles = add_to_tile_pointer_array(tiles, num_gen, tiles_from_config,
+                                      &tiles_len);
   }
   free(im_location);
   free(rules);

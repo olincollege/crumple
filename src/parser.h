@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string.h>
+
 #include "datatypes.h"
 #include "helpers.h"
 
