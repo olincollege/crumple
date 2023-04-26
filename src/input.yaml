@@ -15,16 +15,4 @@ tile:
  - im_name: "markus.png"
  - edges: "baba"
 
-tile:
- - im_name: "jeremy.png"
- - edges: "aaaa"
-
-tile:
- - im_name: "katie.png"
- - edges: "aaab"
-
-tile:
- - im_name: "esme.png"
- - edges: "bbbb"
-
 #EOF
