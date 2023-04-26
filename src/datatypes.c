@@ -62,3 +62,5 @@ int free_tile(tile* tile_) {
   free(tile_);
   return 0;
 }
+
+edge_t* make_edges(char* all_edges) { return NULL; }

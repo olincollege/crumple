@@ -108,21 +108,29 @@ tile** generate_tile_rotations(parsed_tile_textblock* parsed_block, int* rules,
   size_t arr_index = 0;
   size_t num_rots = 1 + (size_t)rules[0] * 2 + (size_t)rules[1];
   tile** tiles = malloc(sizeof(tile*) * num_rots);
-  edge_t* rot_0_edges = make_edges(parsed_block->edges, 0);
+  // edge_t* rot_0_edges = make_edges(parsed_block->edges, 0);
+  edge_t* rot_0_edges =
+      make_edges(parsed_block->edges);  // may need to switch to the above when
+                                        // new make_edges gets merged in
   tiles[arr_index] = make_tile(image_file, 0, rot_0_edges);
   ++arr_index;
   ++*num_generated;
   if (rules[0]) {  // 90 degree rotations
-    edge_t* rot_1_edges = make_edges(parsed_block->edges, 1);
+                   // edge_t* rot_1_edges = make_edges(parsed_block->edges, 1);
+    edge_t* rot_1_edges = make_edges(parsed_block->edges);
+
     tiles[arr_index] = make_tile(image_file, 0, rot_1_edges);
     ++arr_index;
-    edge_t* rot_3_edges = make_edges(parsed_block->edges, 3);
+    // edge_t* rot_3_edges = make_edges(parsed_block->edges, 3);
+    edge_t* rot_3_edges = make_edges(parsed_block->edges);
+
     tiles[arr_index] = make_tile(image_file, 0, rot_3_edges);
     ++arr_index;
     *num_generated += 2;
   }
   if (rules[1]) {  // 180 degree rotations
-    edge_t* rot_2_edges = make_edges(parsed_block->edges, 2);
+                   // edge_t* rot_2_edges = make_edges(parsed_block->edges, 2);
+    edge_t* rot_2_edges = make_edges(parsed_block->edges);
     tiles[arr_index] = make_tile(image_file, 0, rot_2_edges);
     ++*num_generated;
   }
