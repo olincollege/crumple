@@ -2,11 +2,13 @@
 
 #include <string.h>
 
-#include "datatypes.h"
 #include "helpers.h"
 
 enum { MAX_YAML_LINE_LENGTH = 64 };
 enum { MAX_YAML_NUM_LINES = 1024 };
+enum { MAX_YAML_RULES_SECTION_LINES = 10 };
+enum { MAX_YAML_IM_LOCATION_SECTION_LINES = 10 };
+enum { MAX_YAML_TILES_SECTION_LINES = 1000 };
 enum { NUM_YAML_FILE_SECTIONS = 3 };  // rules, image location, tiles
 enum {
   NUM_RULES = 2
