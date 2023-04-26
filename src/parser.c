@@ -44,18 +44,45 @@ split_yaml* get_text_split_sections(FILE* input_yaml_file) {
 }
 
 int* parse_rules_section(char** rules_text) {
+  size_t index = 0;
   char* line = rules_text[0];
+  int* rules = malloc(sizeof(int) * NUM_RULES);
+  for (size_t i = 0; i < NUM_RULES; i++) {
+    rules[i] = -1;
+  }
   while (line) {
     if (strncmp(line, YAML_180_DEGREE_RULE_START,
                 strlen(YAML_180_DEGREE_RULE_START)) == 0) {
-      // logic to pull out the value and set something
+      if (strncmp(line + strlen(YAML_180_DEGREE_RULE_START), YAML_TRUE_VAL,
+                  strlen(YAML_TRUE_VAL)) == 0) {
+        rules[1] = 1;
+      } else if (strncmp(line + strlen(YAML_180_DEGREE_RULE_START),
+                         YAML_FALSE_VAL, strlen(YAML_FALSE_VAL)) == 0) {
+        rules[1] = 0;
+      } else {
+        error_and_exit("error parsing 180 degree rule value");
+      }
     } else if (strncmp(line, YAML_90_DEGREE_RULE_START,
                        strlen(YAML_90_DEGREE_RULE_START)) == 0) {
-      // logic to pull out the value and set something
-    } else {
-      line++;
+      if (strncmp(line + strlen(YAML_90_DEGREE_RULE_START), YAML_TRUE_VAL,
+                  strlen(YAML_TRUE_VAL)) == 0) {
+        rules[0] = 1;
+      } else if (strncmp(line + strlen(YAML_90_DEGREE_RULE_START),
+                         YAML_FALSE_VAL, strlen(YAML_FALSE_VAL)) == 0) {
+        rules[0] = 0;
+      } else {
+        error_and_exit("error parsing 90 degree rule value");
+      }
+    }
+    ++index;
+    line = rules_text[index];
+  }
+  for (size_t i = 0; i < NUM_RULES; i++) {
+    if (rules[i] == -1) {
+      error_and_exit("one or more rules is unset");
     }
   }
+  return rules;
   // if both values are set, return the array
   // else error and exit
 }
@@ -199,7 +226,8 @@ tile** add_to_tile_pointer_array(tile** current_array, size_t num_added_tiles,
 tile** generate_tiles(char* input_yaml_filename) {
   FILE* input_yaml = fopen(input_yaml_filename, "re");
   split_yaml* sectioned_yaml = get_text_split_sections(input_yaml);
-  int* rules = parse_rules_section(sectioned_yaml->rules_section);
+  int* rules = parse_rules_section(
+      sectioned_yaml->rules_section);  // untested also unfinished
   char* im_location = parse_im_location_section(sectioned_yaml->imdir_section);
   size_t tile_config_num = 0;
   tile_textblock** tile_config_blocks =
@@ -213,12 +241,13 @@ tile** generate_tiles(char* input_yaml_filename) {
     parsed_tile = parse_individual_tile_config_textblock(tile_config_blocks[i],
                                                          im_location);
 
-    tiles_from_config = generate_tile_rotations(parsed_tile, rules, &num_gen);
+    tiles_from_config =
+        generate_tile_rotations(parsed_tile, rules, &num_gen);  // untested
     tiles = add_to_tile_pointer_array(tiles, num_gen, tiles_from_config,
-                                      &tiles_len);
+                                      &tiles_len);  // untested
     free_parsed_tile_textblock(parsed_tile);
   }
   free(im_location);
-  free(rules);
+  free(rules);  // gotta valgrind all this shit
   return tiles;
 }

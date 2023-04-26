@@ -16,6 +16,8 @@ static const char YAML_END_MARKER[] = "#EOF";
 
 static const char YAML_90_DEGREE_RULE_START[] = "allow-90-degree-rotations: ";
 static const char YAML_180_DEGREE_RULE_START[] = "allow-180-degree-rotations: ";
+static const char YAML_TRUE_VAL[] = "true";
+static const char YAML_FALSE_VAL[] = "false";
 
 static const char YAML_IM_LOCATION_START[] = "im_location: ";
 
