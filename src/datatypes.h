@@ -46,9 +46,9 @@ typedef struct {
 } edge_t;
 
 typedef struct {
-  char* img_name;
+  FILE* image;
   size_t rotation;
-  edge_t edges;
+  edge_t* edges;
 } tile;
 
 enum allocation_type { NO_ALLOCATION, SELF_ALLOCATED, STB_ALLOCATED };
@@ -97,6 +97,6 @@ int free_cell(cell* cellp);
 tile* make_tile(FILE* image_file, size_t rotation, edge_t* edges_);
 // check if this is the correct way to change
 
-int free_tile(tile* tile);
+int free_tile(tile* tile_);
 
-edge_t* make_edges(char* all_edges, size_t rotation);
+edge_t* make_edges(char* all_edges);

@@ -6,14 +6,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-edge_t* make_edges(char* all_edges, size_t rotation) {
-  char rotated[4];
-  memcpy(rotated + rotation, all_edges, 4 - rotation);
-  memcpy(rotated, all_edges + 4 - rotation, rotation);
-  edge_t edges = {rotated};
-  return &edges;
-}
-
 tile_textblock* make_tile_textblock(char* im_name_line_, char* edges_line_) {
   tile_textblock* textblock = malloc(sizeof(tile_textblock));
   size_t im_name_line_length = strlen(im_name_line_) + 1;
@@ -55,4 +47,18 @@ void free_parsed_tile_textblock(parsed_tile_textblock* parsed_tile_textblock_) {
   free(parsed_tile_textblock_->edges);
   free(parsed_tile_textblock_->im_name);
   free(parsed_tile_textblock_);
+}
+
+tile* make_tile(FILE* image_file, size_t rotation, edge_t* edges_) {
+  tile* tile_ = malloc(sizeof(tile));
+  tile_->image = image_file;
+  tile_->rotation = rotation;
+  tile_->edges = edges_;
+  return tile_;
+}
+
+int free_tile(tile* tile_) {
+  free(tile_->edges);
+  free(tile_);
+  return 0;
 }
