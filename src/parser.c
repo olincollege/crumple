@@ -67,12 +67,13 @@ char* parse_im_location_section(char** image_location_text) {
     if (strncmp(line, YAML_IM_LOCATION_START, strlen(YAML_IM_LOCATION_START)) ==
         0) {
       size_t im_location_line_len = (size_t)strlen(line);
-      size_t image_dir_len =
-          im_location_line_len - strlen(YAML_IM_LOCATION_START);
+      size_t image_dir_len = im_location_line_len -
+                             strlen(YAML_IM_LOCATION_START) -
+                             2;  //-2 to take off quotes
       char* im_location =
-          malloc(sizeof(char) *
-                 (image_dir_len + 2));  // +1 for "/", +1 for null termination
-      strncpy(im_location, line + strlen(YAML_IM_LOCATION_START),
+          malloc(sizeof(char) * (image_dir_len + 1 +
+                                 1));  // +1 for "/", +1 for null termination,
+      strncpy(im_location, line + strlen(YAML_IM_LOCATION_START) + 1,
               im_location_line_len - strlen(YAML_IM_LOCATION_START));
       strncpy(im_location + image_dir_len, "/\0",
               2);  // should result in null termination
