@@ -15,21 +15,7 @@ edge_t* make_edges(char* all_edges) {
   return edges;
 }
 
-void rotate_edges(char* edges, size_t rotation) {
-  // char* new_tile_edges = malloc(sizeof(char) * NUM_EDGES);
-  // strncpy(new_tile_edges, edges->tile_edges, 4);
-  // printf("%s\n", new_tile_edges);
-  // // strncpy(new_tile_edges, edges->tile_edges + rotation, NUM_EDGES -
-  // // rotation); strncpy(new_tile_edges + NUM_EDGES - rotation,
-  // // edges->tile_edges, rotation);
-
-  // strncpy(edges->tile_edges, new_tile_edges + rotation, NUM_EDGES -
-  // rotation); strncpy(edges->tile_edges + NUM_EDGES - rotation,
-  // new_tile_edges, rotation); printf("a\n"); printf("%s\n",
-  // edges->tile_edges); free(edges->tile_edges); printf("b\n");
-  // edges->tile_edges = new_tile_edges;
-  // printf("c\n");
-}
+void rotate_edges(char* edges, size_t rotation) {}
 
 char* make_and_rotate_edges(char* edges, size_t rotation) {
   char* new_edges = malloc(sizeof(char) * NUM_EDGES);
