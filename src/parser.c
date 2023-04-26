@@ -166,7 +166,7 @@ parsed_tile_textblock* parse_individual_tile_config_textblock(
   char* edges_ = malloc(sizeof(char) * EDGES_CHAR_ARRAY_LEN);
   strncpy(edges_, textblock->edges_line + 1 + strlen(YAML_TILE_EDGES_START),
           NUM_EDGES);
-  strncpy(edges_ + strlen(YAML_TILE_EDGES_START) - 1, "\0", 1);
+  strncpy(edges_ + NUM_EDGES, "\0", 1);
 
   parsed_tile_textblock* parsed_block =
       make_parsed_tile_textblock(im_name_, edges_);
@@ -226,8 +226,7 @@ tile** add_to_tile_pointer_array(tile** current_array, size_t num_added_tiles,
 tile** generate_tiles(char* input_yaml_filename) {
   FILE* input_yaml = fopen(input_yaml_filename, "re");
   split_yaml* sectioned_yaml = get_text_split_sections(input_yaml);
-  int* rules = parse_rules_section(
-      sectioned_yaml->rules_section);  // untested also unfinished
+  int* rules = parse_rules_section(sectioned_yaml->rules_section);
   char* im_location = parse_im_location_section(sectioned_yaml->imdir_section);
   size_t tile_config_num = 0;
   tile_textblock** tile_config_blocks =
