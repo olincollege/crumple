@@ -92,10 +92,9 @@ tile_textblock** add_to_tile_textblock_array(tile_textblock** current_array,
                                              size_t* curr_len) {
   tile_textblock** updated_array =
       realloc(current_array, sizeof(tile_textblock*) * (*curr_len + 1));
-
-  memcpy(updated_array[*curr_len], block_to_add, sizeof(block_to_add));
-  *curr_len++;
-  free_tile_textblock(block_to_add);
+  updated_array[*curr_len] = block_to_add;
+  (*curr_len)++;
+  // need to free the memory in the tile_textblock array
   return updated_array;
 }
 
@@ -106,7 +105,7 @@ tile_textblock** parse_tiles_section(char** tile_text,
   char* line = tile_text[index];
 
   while (line) {
-    if (line == YAML_TILE_START) {
+    if (strncmp(line, YAML_TILE_START, strlen(YAML_TILE_START)) == 0) {
       // throw some logic in here to check that the lines we're putting into
       // this textblock are right format, error if not
       tile_textblock* textblock =
