@@ -100,3 +100,8 @@ tile* make_tile(FILE* image_file, size_t rotation, edge_t* edges_);
 int free_tile(tile* tile_);
 
 edge_t* make_edges(char* all_edges);
+
+split_yaml* make_split_yaml(char** rules_section_, char** imdir_section_,
+                            char** tiles_section_);
+
+int free_split_yaml(split_yaml* split_yaml_);

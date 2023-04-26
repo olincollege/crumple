@@ -64,3 +64,19 @@ int free_tile(tile* tile_) {
 }
 
 edge_t* make_edges(char* all_edges) { return NULL; }
+
+split_yaml* make_split_yaml(char** rules_section_, char** imdir_section_,
+                            char** tiles_section_) {
+  split_yaml* split_yaml_ = malloc(sizeof(split_yaml));
+  split_yaml_->rules_section = rules_section_;
+  split_yaml_->imdir_section = imdir_section_;
+  split_yaml_->tiles_section = tiles_section_;
+  return split_yaml_;
+}
+
+int free_split_yaml(split_yaml* split_yaml_) {
+  free(split_yaml_->rules_section);
+  free(split_yaml_->imdir_section);
+  free(split_yaml_->tiles_section);
+  free(split_yaml_);
+}
