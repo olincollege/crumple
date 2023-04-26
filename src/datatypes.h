@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <stdbool.h>
@@ -8,20 +7,20 @@
 
 enum { EDGES_CHAR_ARRAY_LEN = 5 };  // 4 + 1 for null pointer
 
-const char YAML_START_LINE[] = "---";
-const char YAML_RULES_HEADER[] = "#rules";
-const char YAML_IM_LOCATION_HEADER[] = "#im_location";
-const char YAML_TILES_HEADER[] = "#tiles";
-const char YAML_END_MARKER[] = "#EOF";
+static const char YAML_START_LINE[] = "---";
+static const char YAML_RULES_HEADER[] = "#rules";
+static const char YAML_IM_LOCATION_HEADER[] = "#im_location";
+static const char YAML_TILES_HEADER[] = "#tiles";
+static const char YAML_END_MARKER[] = "#EOF";
 
-const char YAML_90_DEGREE_RULE_START[] = "allow-90-degree-rotations: ";
-const char YAML_180_DEGREE_RULE_START[] = "allow-180-degree-rotations: ";
+static const char YAML_90_DEGREE_RULE_START[] = "allow-90-degree-rotations: ";
+static const char YAML_180_DEGREE_RULE_START[] = "allow-180-degree-rotations: ";
 
-const char YAML_IM_LOCATION_START[] = "im_location: ";
+static const char YAML_IM_LOCATION_START[] = "im_location: ";
 
-const char YAML_TILE_START[] = "tile:";
-const char YAML_TILE_IM_NAME_START[] = " - im_name: ";
-const char YAML_TILE_EDGES_START[] = " - edges: ";
+static const char YAML_TILE_START[] = "tile:";
+static const char YAML_TILE_IM_NAME_START[] = " - im_name: ";
+static const char YAML_TILE_EDGES_START[] = " - edges: ";
 
 typedef struct {
   size_t x;
