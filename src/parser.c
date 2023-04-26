@@ -216,6 +216,7 @@ tile** generate_tiles(char* input_yaml_filename) {
     tiles_from_config = generate_tile_rotations(parsed_tile, rules, &num_gen);
     tiles = add_to_tile_pointer_array(tiles, num_gen, tiles_from_config,
                                       &tiles_len);
+    free_parsed_tile_textblock(parsed_tile);
   }
   free(im_location);
   free(rules);
