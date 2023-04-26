@@ -6,6 +6,22 @@
 #include <stdlib.h>
 #include <string.h>
 
+edge_t* make_edges(char* all_edges) {
+  char* edges_ = malloc(sizeof(char) * 4);
+  edges_ = all_edges;
+  edge_t* edges = malloc(sizeof(edge_t));
+  edges->tile_edges = edges_;
+  return edges;
+}
+
+void rotate_edges(edge_t* edges, size_t rotation) {
+  char* temp = malloc(sizeof(char) * 4);
+  memcpy(temp, edges->tile_edges, sizeof(char) * 4);
+  memcpy(edges->tile_edges + rotation, edges->tile_edges, 4 - rotation);
+  memcpy(edges->tile_edges, temp + 4 - rotation, rotation);
+  free(temp);
+}
+
 tile_textblock* make_tile_textblock(char* im_name_line_, char* edges_line_) {
   tile_textblock* textblock = malloc(sizeof(tile_textblock));
   size_t im_name_line_length = strlen(im_name_line_) + 1;
@@ -62,8 +78,6 @@ int free_tile(tile* tile_) {
   free(tile_);
   return 0;
 }
-
-edge_t* make_edges(char* all_edges) { return NULL; }
 
 split_yaml* make_split_yaml(char** rules_section_, char** imdir_section_,
                             char** tiles_section_) {
