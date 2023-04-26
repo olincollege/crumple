@@ -1,6 +1,20 @@
 #include "parser.h"
 
-split_yaml* get_text_split_sections(FILE* input_yaml_file) {}
+split_yaml* get_text_split_sections(FILE* input_yaml_file) {
+  char** rules_section = malloc(sizeof(char*) * MAX_YAML_RULES_SECTION_LINES);
+  char** im_location_section =
+      malloc(sizeof(char*) * MAX_YAML_IM_LOCATION_SECTION_LINES);
+  char** tiles_section = malloc(sizeof(char*) * MAX_YAML_TILES_SECTION_LINES);
+  char buffer[MAX_YAML_LINE_LENGTH];
+  size_t line_count = 0;
+  while (fgets(buffer, MAX_YAML_LINE_LENGTH, input_yaml_file) != NULL &&
+         line_count < MAX_YAML_NUM_LINES) {
+    size_t line_length = (size_t)strlen(buffer);
+    if (strncmp(buffer, YAML_RULES_HEADER, strlen(YAML_RULES_HEADER)) == 0) {
+      printf("found rules section!\n");
+    }
+  }
+}
 
 int* parse_rules_section(char** rules_text) {
   char* line = rules_text[0];
