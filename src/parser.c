@@ -60,18 +60,22 @@ tile_textblock** add_to_tile_textblock_array(tile_textblock** current_array,
 tile_textblock** parse_tiles_section(char** tile_text,
                                      size_t* num_tile_configs) {
   tile_textblock** tile_textblock_arr = malloc(sizeof(tile_textblock*));
-  char* line = tile_text[0];
+  size_t index = 0;
+  char* line = tile_text[index];
+
   while (line) {
-    if (*line == YAML_TILE_START) {
+    if (line == YAML_TILE_START) {
       // throw some logic in here to check that the lines we're putting into
       // this textblock are right format, error if not
-      tile_textblock* textblock = make_tile_textblock(*(line + 1), *(line + 2));
+      tile_textblock* textblock =
+          make_tile_textblock(tile_text[index + 1], tile_text[index + 2]);
       tile_textblock_arr = add_to_tile_textblock_array(
           tile_textblock_arr, textblock, num_tile_configs);
-      line += 3;
+      index += 3;
     } else {
-      ++line;
+      ++index;
     }
+    line = tile_text[index];
   }
   return tile_textblock_arr;
 }
@@ -93,6 +97,7 @@ tile** generate_tile_rotations(parsed_tile_textblock* parsed_block, int* rules,
   edge_t* rot_0_edges = make_edges(parsed_block->edges, 0);
   tiles[arr_index] = make_tile(image_file, 0, rot_0_edges);
   ++arr_index;
+  ++*num_generated;
   if (rules[0]) {  // 90 degree rotations
     edge_t* rot_1_edges = make_edges(parsed_block->edges, 1);
     tiles[arr_index] = make_tile(image_file, 0, rot_1_edges);
@@ -100,10 +105,12 @@ tile** generate_tile_rotations(parsed_tile_textblock* parsed_block, int* rules,
     edge_t* rot_3_edges = make_edges(parsed_block->edges, 3);
     tiles[arr_index] = make_tile(image_file, 0, rot_3_edges);
     ++arr_index;
+    *num_generated += 2;
   }
   if (rules[1]) {  // 180 degree rotations
     edge_t* rot_2_edges = make_edges(parsed_block->edges, 2);
     tiles[arr_index] = make_tile(image_file, 0, rot_2_edges);
+    ++*num_generated;
   }
   free_parsed_tile_textblock(parsed_block);
   return tiles;
@@ -126,15 +133,15 @@ tile** generate_tiles(char* input_yaml_filename) {
   split_yaml* sectioned_yaml = get_text_split_sections(input_yaml);
   int* rules = parse_rules_section(sectioned_yaml->rules_section);
   char* im_location = parse_im_location_section(sectioned_yaml->imdir_section);
-  int tile_config_num = 0;
+  size_t tile_config_num = 0;
   tile_textblock** tile_config_blocks =
-      parse_tile_section(sectioned_yaml->tiles_section, &tile_config_num);
+      parse_tiles_section(sectioned_yaml->tiles_section, &tile_config_num);
   parsed_tile_textblock* parsed_tile;
   tile** tiles_from_config;
   size_t num_gen = 0;
   tile** tiles = malloc(sizeof(tile*));
   size_t tiles_len = 0;
-  for (int i = 0; i < tile_config_num; i++) {
+  for (size_t i = 0; i < tile_config_num; i++) {
     parsed_tile = parse_individual_tile_config_textblock(tile_config_blocks[i],
                                                          im_location);
 
