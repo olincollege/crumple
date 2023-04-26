@@ -41,22 +41,44 @@ void free_tile_textblock(tile_textblock* tile_textblock_) {
   free(tile_textblock_);
 }
 
-parsed_tile_textblock* make_parsed_tile_textblock(tile_textblock* textblock_,
-                                                  char* image_location) {
-  parsed_tile_textblock* parsed_textblock = malloc(sizeof(parsed_textblock));
-  size_t edges_len = EDGES_CHAR_ARRAY_LEN;
-  size_t im_name_len = strlen(textblock_->im_name_line) +
-                       strlen(image_location) -
-                       strlen(YAML_TILE_IM_NAME_START) + 1;
-  parsed_textblock->edges = malloc(sizeof(char) * edges_len);
-  parsed_textblock->im_name = malloc(sizeof(char) * im_name_len);
-  strncpy(parsed_textblock->edges,
-          textblock_->edges_line + strlen(YAML_TILE_EDGES_START), edges_len);
-  strncpy(parsed_textblock->im_name, image_location, strlen(image_location));
-  strncpy(parsed_textblock->im_name + strlen(image_location),
-          textblock_->im_name_line + strlen(YAML_TILE_IM_NAME_START),
-          im_name_len);
+parsed_tile_textblock* make_parsed_tile_textblock(char* im_name_,
+                                                  char* edges_) {
+  parsed_tile_textblock* parsed_textblock =
+      malloc(sizeof(parsed_tile_textblock));
+  char* block_edges = malloc(sizeof(char*) * strlen(edges_));
+  char* block_im_name = malloc(sizeof(char*) * strlen(im_name_));
+  block_edges = edges_;
+  block_edges[strlen(edges_)] = '\0';
+  block_im_name = im_name_;
+  block_im_name[strlen(im_name_)] = '\0';
+  parsed_textblock->im_name = block_im_name;
+  parsed_textblock->edges = block_edges;
+
   return parsed_textblock;
+
+  //   size_t edges_len = EDGES_CHAR_ARRAY_LEN;
+  //   printf("3\n");
+  //   char* size_t im_name_len =
+  //       strlen(textblock_->im_name_line) + strlen(image_location) -
+  //       strlen(YAML_TILE_IM_NAME_START) + 1 -
+  //       2;  // +1 for null termination, -2 for removing quotes
+  //   printf("im_name_len: %zu\n", im_name_len);
+  //   printf("4\n");
+  //   parsed_textblock->edges = malloc(sizeof(char) * edges_len);
+  //   printf("5\n");
+  //   parsed_textblock->im_name = malloc(sizeof(char) * im_name_len);
+  //   printf("6\n");
+  //   strncpy(parsed_textblock->edges,
+  //           textblock_->edges_line + strlen(YAML_TILE_EDGES_START),
+  //           edges_len);
+  //   printf("7\n");
+  //   strncpy(parsed_textblock->im_name, image_location,
+  //   strlen(image_location)); printf("8\n"); strncpy(parsed_textblock->im_name
+  //   + strlen(image_location),
+  //           textblock_->im_name_line + strlen(YAML_TILE_IM_NAME_START),
+  //           im_name_len);
+  //   printf("9\n");
+  //   return parsed_textblock;
 }
 
 void free_parsed_tile_textblock(parsed_tile_textblock* parsed_tile_textblock_) {

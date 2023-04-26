@@ -123,9 +123,28 @@ tile_textblock** parse_tiles_section(char** tile_text,
 
 parsed_tile_textblock* parse_individual_tile_config_textblock(
     tile_textblock* textblock, char* image_location) {
+  size_t initial_im_name_line_length = strlen(textblock->im_name_line);
+  size_t core_im_filename_length = initial_im_name_line_length -
+                                   strlen(YAML_TILE_IM_NAME_START) -
+                                   2;  // -2 for quotes
+  size_t im_dir_length = strlen(image_location);
+  size_t total_im_path_len =
+      im_dir_length + core_im_filename_length + 1;  // +1 for null term
+  char* im_name_ = malloc(sizeof(char*) * total_im_path_len);
+  strncpy(im_name_, image_location, im_dir_length);
+  strncpy(im_name_ + im_dir_length,
+          textblock->im_name_line + 1 + strlen(YAML_TILE_IM_NAME_START),
+          core_im_filename_length);
+  strncpy(im_name_ + total_im_path_len, "\0", 1);
+  char* edges_ = malloc(sizeof(char) * EDGES_CHAR_ARRAY_LEN);
+  strncpy(edges_, textblock->edges_line + 1 + strlen(YAML_TILE_EDGES_START),
+          NUM_EDGES);
+  strncpy(edges_ + strlen(YAML_TILE_EDGES_START) - 1, "\0", 1);
+
   parsed_tile_textblock* parsed_block =
-      make_parsed_tile_textblock(textblock, image_location);
-  free_tile_textblock(textblock);
+      make_parsed_tile_textblock(im_name_, edges_);
+
+  // free_tile_textblock(textblock);
   return parsed_block;
 }
 

@@ -6,6 +6,7 @@
 #include <stdlib.h>
 
 enum { EDGES_CHAR_ARRAY_LEN = 5 };  // 4 + 1 for null pointer
+enum { NUM_EDGES = 4 };
 
 static const char YAML_START_LINE[] = "---";
 static const char YAML_RULES_HEADER[] = "#rules";
@@ -82,8 +83,7 @@ typedef struct {
   char* edges;
 } parsed_tile_textblock;
 
-parsed_tile_textblock* make_parsed_tile_textblock(tile_textblock* textblock_,
-                                                  char* image_location);
+parsed_tile_textblock* make_parsed_tile_textblock(char* im_name_, char* edges_);
 
 void free_parsed_tile_textblock(parsed_tile_textblock* parsed_tile_textblock_);
 
