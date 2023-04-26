@@ -1,10 +1,10 @@
 
 #pragma once
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include <stdbool.h>
 
 typedef struct {
 
@@ -66,13 +66,4 @@ tile* make_tile(FILE* image_file, size_t rotation, edge_t* edges_);
 int free_tile(tile*);
 
 edge_t* make_edges(char* all_edges);
-
-void image_free(Image *img);
-
-void image_create(Image *img, int width, int height, int channels, bool zeroed);
-
-void image_load(Image *img, const char *filename);
-
-
-
 
