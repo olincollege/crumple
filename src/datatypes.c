@@ -8,18 +8,34 @@
 
 edge_t* make_edges(char* all_edges) {
   char* edges_ = malloc(sizeof(char) * 4);
+  strncpy(edges_, "\0\0\0\0", 4);
   edges_ = all_edges;
   edge_t* edges = malloc(sizeof(edge_t));
   edges->tile_edges = edges_;
   return edges;
 }
 
-void rotate_edges(edge_t* edges, size_t rotation) {
-  char* temp = malloc(sizeof(char) * 4);
-  memcpy(temp, edges->tile_edges, sizeof(char) * 4);
-  memcpy(edges->tile_edges + rotation, edges->tile_edges, 4 - rotation);
-  memcpy(edges->tile_edges, temp + 4 - rotation, rotation);
-  free(temp);
+void rotate_edges(char* edges, size_t rotation) {
+  // char* new_tile_edges = malloc(sizeof(char) * NUM_EDGES);
+  // strncpy(new_tile_edges, edges->tile_edges, 4);
+  // printf("%s\n", new_tile_edges);
+  // // strncpy(new_tile_edges, edges->tile_edges + rotation, NUM_EDGES -
+  // // rotation); strncpy(new_tile_edges + NUM_EDGES - rotation,
+  // // edges->tile_edges, rotation);
+
+  // strncpy(edges->tile_edges, new_tile_edges + rotation, NUM_EDGES -
+  // rotation); strncpy(edges->tile_edges + NUM_EDGES - rotation,
+  // new_tile_edges, rotation); printf("a\n"); printf("%s\n",
+  // edges->tile_edges); free(edges->tile_edges); printf("b\n");
+  // edges->tile_edges = new_tile_edges;
+  // printf("c\n");
+}
+
+char* make_and_rotate_edges(char* edges, size_t rotation) {
+  char* new_edges = malloc(sizeof(char) * NUM_EDGES);
+  strncpy(new_edges, edges + rotation, NUM_EDGES - rotation);
+  strncpy(new_edges + NUM_EDGES - rotation, edges, rotation);
+  return new_edges;
 }
 
 tile_textblock* make_tile_textblock(char* im_name_line_, char* edges_line_) {
@@ -55,30 +71,6 @@ parsed_tile_textblock* make_parsed_tile_textblock(char* im_name_,
   parsed_textblock->edges = block_edges;
 
   return parsed_textblock;
-
-  //   size_t edges_len = EDGES_CHAR_ARRAY_LEN;
-  //   printf("3\n");
-  //   char* size_t im_name_len =
-  //       strlen(textblock_->im_name_line) + strlen(image_location) -
-  //       strlen(YAML_TILE_IM_NAME_START) + 1 -
-  //       2;  // +1 for null termination, -2 for removing quotes
-  //   printf("im_name_len: %zu\n", im_name_len);
-  //   printf("4\n");
-  //   parsed_textblock->edges = malloc(sizeof(char) * edges_len);
-  //   printf("5\n");
-  //   parsed_textblock->im_name = malloc(sizeof(char) * im_name_len);
-  //   printf("6\n");
-  //   strncpy(parsed_textblock->edges,
-  //           textblock_->edges_line + strlen(YAML_TILE_EDGES_START),
-  //           edges_len);
-  //   printf("7\n");
-  //   strncpy(parsed_textblock->im_name, image_location,
-  //   strlen(image_location)); printf("8\n"); strncpy(parsed_textblock->im_name
-  //   + strlen(image_location),
-  //           textblock_->im_name_line + strlen(YAML_TILE_IM_NAME_START),
-  //           im_name_len);
-  //   printf("9\n");
-  //   return parsed_textblock;
 }
 
 void free_parsed_tile_textblock(parsed_tile_textblock* parsed_tile_textblock_) {
@@ -87,11 +79,12 @@ void free_parsed_tile_textblock(parsed_tile_textblock* parsed_tile_textblock_) {
   free(parsed_tile_textblock_);
 }
 
-tile* make_tile(FILE* image_file, size_t rotation, edge_t* edges_) {
+tile* make_tile(FILE* image_file, size_t rotation, char* edges_orig) {
   tile* tile_ = malloc(sizeof(tile));
   tile_->image = image_file;
   tile_->rotation = rotation;
-  tile_->edges = edges_;
+  char* new_edges = make_and_rotate_edges(edges_orig, rotation);
+  tile_->edges = new_edges;
   return tile_;
 }
 
