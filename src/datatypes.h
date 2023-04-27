@@ -15,19 +15,6 @@ typedef struct {
 
 typedef struct {
 
-  size_t entropy;
-
-} cell;
-
-typedef struct {
-  size_t height;
-  size_t width;
-  cell** array;
-
-} matrix;
-
-typedef struct {
-
   char tile_edges[4];
 
 } edge_t;
@@ -38,6 +25,20 @@ typedef struct {
   size_t rotation;
   edge_t edges;
 } tile;
+
+typedef struct {
+
+  size_t entropy;
+  tile** possibilities;
+
+} cell;
+
+typedef struct {
+  size_t height;
+  size_t width;
+  cell** array;
+
+} matrix;
 
 enum allocation_type {
     NO_ALLOCATION, SELF_ALLOCATED, STB_ALLOCATED
