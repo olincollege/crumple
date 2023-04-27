@@ -208,11 +208,10 @@ tile** add_to_tile_pointer_array(tile** current_array, size_t num_added_tiles,
     updated_array[*curr_len] = array_to_add[i];
     (*curr_len)++;
   }
-  // free(array_to_add);
   return updated_array;
 }
 
-tile** generate_tiles(char* input_yaml_filename) {
+tile** generate_tiles(char* input_yaml_filename, size_t* tiles_len) {
   FILE* input_yaml = fopen(input_yaml_filename, "re");
   split_yaml* sectioned_yaml = get_text_split_sections(input_yaml);
   int* rules = parse_rules_section(sectioned_yaml->rules_section);
@@ -224,15 +223,14 @@ tile** generate_tiles(char* input_yaml_filename) {
   tile** tiles_from_config;
   size_t num_gen = 0;
   tile** tiles = malloc(sizeof(tile*));
-  size_t tiles_len = 0;
+  *tiles_len = 0;
   for (size_t i = 0; i < tile_config_num; i++) {
     parsed_tile = parse_individual_tile_config_textblock(tile_config_blocks[i],
                                                          im_location);
 
-    tiles_from_config =
-        generate_tile_rotations(parsed_tile, rules, &num_gen);  // untested
-    tiles = add_to_tile_pointer_array(tiles, num_gen, tiles_from_config,
-                                      &tiles_len);  // untested
+    tiles_from_config = generate_tile_rotations(parsed_tile, rules, &num_gen);
+    tiles =
+        add_to_tile_pointer_array(tiles, num_gen, tiles_from_config, tiles_len);
   }
   free(im_location);
   free(rules);  // gotta valgrind all this shit

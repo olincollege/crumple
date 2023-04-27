@@ -170,10 +170,11 @@ tile** add_to_tile_pointer_array(tile** current_array, size_t num_added_tiles,
 /**
  * Generate tiles from a user submitted yaml input file
  *
- * Given the name of a user submitted yaml file, generate an array of tile
- * struct pointers corresponding to the tiles specified by the input yaml. The
- * parsing is brittle and requires precise formatting. If the tile generation is
- * not successful, error and exit without returning and provide the user as much
+ * Given the name of a user submitted yaml file and the pointer to a size_t to
+ * hold the length of the returned array, generate an array of tile struct
+ * pointers corresponding to the tiles specified by the input yaml. The parsing
+ * is brittle and requires precise formatting. If the tile generation is not
+ * successful, error and exit without returning and provide the user as much
  * insight as possible as to why the parsing fails.
  *
  * Frees all memory internally allocated except for the returned tile array.
@@ -183,7 +184,9 @@ tile** add_to_tile_pointer_array(tile** current_array, size_t num_added_tiles,
  *
  * @param input_yaml_filename The name of the yaml file (or path to it including
  * name)
+ * @param tiles_len THe length of the returned tile pointer array, will be
+ * written to during execution
  *
  * @return The array of tile pointers generated from the yaml
  */
-tile** generate_tiles(char* input_yaml_filename);
+tile** generate_tiles(char* input_yaml_filename, size_t* tiles_len);
