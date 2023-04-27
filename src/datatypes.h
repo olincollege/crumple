@@ -44,11 +44,6 @@ typedef struct {
 } matrix;
 
 typedef struct {
-  char* tile_edges;
-
-} edge_t;
-
-typedef struct {
   FILE* image;
   size_t rotation;
   char* edges;
