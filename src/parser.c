@@ -219,8 +219,8 @@ tile** generate_tiles(char* input_yaml_filename, size_t* tiles_len) {
   size_t tile_config_num = 0;
   tile_textblock** tile_config_blocks =
       parse_tiles_section(sectioned_yaml->tiles_section, &tile_config_num);
-  parsed_tile_textblock* parsed_tile;
-  tile** tiles_from_config;
+  parsed_tile_textblock* parsed_tile = NULL;
+  tile** tiles_from_config = NULL;
   size_t num_gen = 0;
   tile** tiles = malloc(sizeof(tile*));
   *tiles_len = 0;
