@@ -15,8 +15,6 @@ edge_t* make_edges(char* all_edges) {
   return edges;
 }
 
-void rotate_edges(char* edges, size_t rotation) {}
-
 char* make_and_rotate_edges(char* edges, size_t rotation) {
   char* new_edges = malloc(sizeof(char) * NUM_EDGES);
   strncpy(new_edges, edges + rotation, NUM_EDGES - rotation);
