@@ -234,5 +234,6 @@ tile** generate_tiles(char* input_yaml_filename, size_t* tiles_len) {
   }
   free(im_location);
   free(rules);  // gotta valgrind all this shit
+  free(sectioned_yaml);
   return tiles;
 }

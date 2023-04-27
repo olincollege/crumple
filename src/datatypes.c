@@ -45,8 +45,8 @@ parsed_tile_textblock* make_parsed_tile_textblock(char* im_name_,
                                                   char* edges_) {
   parsed_tile_textblock* parsed_textblock =
       malloc(sizeof(parsed_tile_textblock));
-  char* block_edges = malloc(sizeof(char*) * strlen(edges_));
-  char* block_im_name = malloc(sizeof(char*) * strlen(im_name_));
+  char* block_edges = malloc(sizeof(char) * strlen(edges_));
+  char* block_im_name = malloc(sizeof(char) * strlen(im_name_));
   block_edges = edges_;
   block_edges[strlen(edges_)] = '\0';
   block_im_name = im_name_;
@@ -92,4 +92,5 @@ int free_split_yaml(split_yaml* split_yaml_) {
   free(split_yaml_->imdir_section);
   free(split_yaml_->tiles_section);
   free(split_yaml_);
+  return 0;
 }
