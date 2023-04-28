@@ -57,6 +57,7 @@ typedef struct {
   size_t height;
   size_t width;
   cell** array;
+  size_t num_tiles;
 
 } matrix;
 
