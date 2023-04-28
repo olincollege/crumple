@@ -25,6 +25,9 @@ static const char YAML_TILE_START[] = "tile:";
 static const char YAML_TILE_IM_NAME_START[] = " - im_name: ";
 static const char YAML_TILE_EDGES_START[] = " - edges: ";
 
+static const int X_OFFSET[] = {0, 1, 0, -1};
+static const int Y_OFFSET[] = {1, 0, -1, 0};
+
 typedef struct {
   size_t x;
   size_t y;
