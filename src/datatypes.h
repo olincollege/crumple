@@ -52,6 +52,7 @@ typedef struct {
 
   size_t entropy;
   tile** possibilities;
+  tile* collapse;
 
 } cell;
 
@@ -61,6 +62,7 @@ typedef struct {
   size_t width;
   cell** array;
   size_t num_tiles;
+  tile* all_tiles;
 
 } matrix;
 
