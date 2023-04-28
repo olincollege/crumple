@@ -1,7 +1,7 @@
 ---
 #rules
-allow-90-degree-rotations: true
-allow-180-degree-rotations: false
+allow-90-degree-rotations: false
+allow-180-degree-rotations: true
 
 #im_location
 im_location: "./images"
@@ -11,7 +11,7 @@ tile:
  - im_name: "jeff.png"
  - edges: "abab"
 
- tile:
+tile:
  - im_name: "markus.png"
  - edges: "baba"
 

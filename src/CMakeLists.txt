@@ -13,17 +13,17 @@ add_library(datatypes datatypes.c datatypes.h)
 
 add_library(helpers helpers.c helpers.h)
 
-add_library(collapser collapser.c collapser.h)
-target_link_libraries(collapser PRIVATE datatypes helpers)
+# add_library(collapser collapser.c collapser.h)
+# target_link_libraries(collapser PRIVATE datatypes helpers)
 
 add_library(parser parser.c parser.h)
-target_link_libraries(parser PRIVATE datatypes helpers)
+target_link_libraries(parser PRIVATE helpers datatypes)
 
-add_library(imgen imgen.c imgen.h)
-target_link_libraries(imgen PRIVATE datatypes helpers)
+# add_library(imgen imgen.c imgen.h)
+# target_link_libraries(imgen PRIVATE datatypes helpers)
 
-add_executable(main main.c)
-target_link_libraries(main PRIVATE collapser parser imgen)
+# add_executable(main main.c)
+# target_link_libraries(main PRIVATE collapser parser imgen)
 
 add_executable(parsing_exec parsing_exec.c)
-target_link_libraries(parsing_exec PRIVATE collapser parser imgen)
+target_link_libraries(parsing_exec PRIVATE parser)
