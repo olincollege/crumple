@@ -26,3 +26,5 @@
  * @param error_msg The error message to print.
  */
 noreturn void error_and_exit(const char* error_msg);
+
+tile* get_collapsed_tile(matrix* cells, coords loc);

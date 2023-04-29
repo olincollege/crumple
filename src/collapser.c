@@ -1,4 +1,5 @@
 #include "collapser.h"
+#include "helpers.h"
 
 coords find_lowest_entropy(matrix* cells, size_t num_tiles) {
   coords lowest_loc = {.x = 0, .y = 0};
@@ -16,7 +17,7 @@ coords find_lowest_entropy(matrix* cells, size_t num_tiles) {
 }
 
 void update_neighbors(matrix* cells, coords loc) {
-  tile* self_tile = cells->array[loc.x][loc.y].collapse;
+  tile* self_tile = get_collapsed_tile(cells, loc);
 
   for (size_t dir = 0; dir < 4; dir++) {
     // make sure we're not looking out of bounds

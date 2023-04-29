@@ -52,7 +52,6 @@ typedef struct {
 
   size_t entropy;
   tile** possibilities;
-  tile* collapse;
 
 } cell;
 
