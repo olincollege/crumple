@@ -181,32 +181,18 @@ tile** generate_tile_rotations(parsed_tile_textblock* parsed_block, int* rules,
   size_t arr_index = 0;
   size_t num_rots = 1 + (size_t)rules[0] * 2 + (size_t)rules[1];
   tile** tiles = malloc(sizeof(tile*) * num_rots);
-  // edge_t* rot_0_edges = make_edges(parsed_block->edges, 0);
-  edge_t* rot_0_edges =
-      make_edges(parsed_block->edges);  // may need to switch to the above when
-                                        // new make_edges gets merged in
-  tiles[arr_index] = make_tile(image_file, 0, rot_0_edges);
+  tiles[arr_index] = make_tile(image_file, 0, parsed_block->edges);
   ++arr_index;
-  ++*num_generated;
   if (rules[0]) {  // 90 degree rotations
-                   // edge_t* rot_1_edges = make_edges(parsed_block->edges, 1);
-    edge_t* rot_1_edges = make_edges(parsed_block->edges);
-
-    tiles[arr_index] = make_tile(image_file, 0, rot_1_edges);
+    tiles[arr_index] = make_tile(image_file, 1, parsed_block->edges);
     ++arr_index;
-    // edge_t* rot_3_edges = make_edges(parsed_block->edges, 3);
-    edge_t* rot_3_edges = make_edges(parsed_block->edges);
-
-    tiles[arr_index] = make_tile(image_file, 0, rot_3_edges);
+    tiles[arr_index] = make_tile(image_file, 3, parsed_block->edges);
     ++arr_index;
-    *num_generated += 2;
   }
   if (rules[1]) {  // 180 degree rotations
-                   // edge_t* rot_2_edges = make_edges(parsed_block->edges, 2);
-    edge_t* rot_2_edges = make_edges(parsed_block->edges);
-    tiles[arr_index] = make_tile(image_file, 0, rot_2_edges);
-    ++*num_generated;
+    tiles[arr_index] = make_tile(image_file, 2, parsed_block->edges);
   }
+  (*num_generated) = num_rots;
   free_parsed_tile_textblock(parsed_block);
   return tiles;
 }
@@ -215,15 +201,17 @@ tile** add_to_tile_pointer_array(tile** current_array, size_t num_added_tiles,
                                  tile** array_to_add, size_t* curr_len) {
   tile** updated_array =
       realloc(current_array, sizeof(tile*) * (*curr_len + num_added_tiles));
-  for (size_t i = 0; i < num_added_tiles; i++) {
-    memcpy(updated_array[*curr_len + i], array_to_add[i], sizeof(tile*));
+  if (!updated_array) {
+    error_and_exit("error with updated array");
   }
-  *curr_len += num_added_tiles;
-  free(array_to_add);
+  for (size_t i = 0; i < num_added_tiles; i++) {
+    updated_array[*curr_len] = array_to_add[i];
+    (*curr_len)++;
+  }
   return updated_array;
 }
 
-tile** generate_tiles(char* input_yaml_filename) {
+tile** generate_tiles(char* input_yaml_filename, size_t* tiles_len) {
   FILE* input_yaml = fopen(input_yaml_filename, "re");
   split_yaml* sectioned_yaml = get_text_split_sections(input_yaml);
   int* rules = parse_rules_section(sectioned_yaml->rules_section);
@@ -231,22 +219,21 @@ tile** generate_tiles(char* input_yaml_filename) {
   size_t tile_config_num = 0;
   tile_textblock** tile_config_blocks =
       parse_tiles_section(sectioned_yaml->tiles_section, &tile_config_num);
-  parsed_tile_textblock* parsed_tile;
-  tile** tiles_from_config;
+  parsed_tile_textblock* parsed_tile = NULL;
+  tile** tiles_from_config = NULL;
   size_t num_gen = 0;
   tile** tiles = malloc(sizeof(tile*));
-  size_t tiles_len = 0;
+  *tiles_len = 0;
   for (size_t i = 0; i < tile_config_num; i++) {
     parsed_tile = parse_individual_tile_config_textblock(tile_config_blocks[i],
                                                          im_location);
 
-    tiles_from_config =
-        generate_tile_rotations(parsed_tile, rules, &num_gen);  // untested
-    tiles = add_to_tile_pointer_array(tiles, num_gen, tiles_from_config,
-                                      &tiles_len);  // untested
-    free_parsed_tile_textblock(parsed_tile);
+    tiles_from_config = generate_tile_rotations(parsed_tile, rules, &num_gen);
+    tiles =
+        add_to_tile_pointer_array(tiles, num_gen, tiles_from_config, tiles_len);
   }
   free(im_location);
   free(rules);  // gotta valgrind all this shit
+  free(sectioned_yaml);
   return tiles;
 }

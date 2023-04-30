@@ -15,8 +15,6 @@ edge_t* make_edges(char* all_edges) {
   return edges;
 }
 
-void rotate_edges(char* edges, size_t rotation) {}
-
 char* make_and_rotate_edges(char* edges, size_t rotation) {
   char* new_edges = malloc(sizeof(char) * NUM_EDGES);
   strncpy(new_edges, edges + rotation, NUM_EDGES - rotation);
@@ -47,8 +45,8 @@ parsed_tile_textblock* make_parsed_tile_textblock(char* im_name_,
                                                   char* edges_) {
   parsed_tile_textblock* parsed_textblock =
       malloc(sizeof(parsed_tile_textblock));
-  char* block_edges = malloc(sizeof(char*) * strlen(edges_));
-  char* block_im_name = malloc(sizeof(char*) * strlen(im_name_));
+  char* block_edges = malloc(sizeof(char) * strlen(edges_));
+  char* block_im_name = malloc(sizeof(char) * strlen(im_name_));
   block_edges = edges_;
   block_edges[strlen(edges_)] = '\0';
   block_im_name = im_name_;
@@ -94,4 +92,5 @@ int free_split_yaml(split_yaml* split_yaml_) {
   free(split_yaml_->imdir_section);
   free(split_yaml_->tiles_section);
   free(split_yaml_);
+  return 0;
 }
