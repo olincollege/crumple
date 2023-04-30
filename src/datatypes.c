@@ -6,15 +6,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-edge_t* make_edges(char* all_edges) {
-  char* edges_ = malloc(sizeof(char) * 4);
-  strncpy(edges_, "\0\0\0\0", 4);
-  edges_ = all_edges;
-  edge_t* edges = malloc(sizeof(edge_t));
-  edges->tile_edges = edges_;
-  return edges;
-}
-
 char* make_and_rotate_edges(char* edges, size_t rotation) {
   char* new_edges = malloc(sizeof(char) * NUM_EDGES);
   strncpy(new_edges, edges + rotation, NUM_EDGES - rotation);
