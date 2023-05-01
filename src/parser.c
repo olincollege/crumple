@@ -50,6 +50,7 @@ int* parse_rules_section(char** rules_text) {
   for (size_t i = 0; i < NUM_RULES; i++) {
     rules[i] = -1;
   }
+
   while (line) {
     if (strncmp(line, YAML_180_DEGREE_RULE_START,
                 strlen(YAML_180_DEGREE_RULE_START)) == 0) {
@@ -77,14 +78,13 @@ int* parse_rules_section(char** rules_text) {
     ++index;
     line = rules_text[index];
   }
+  // error_and_exit("test3");
   for (size_t i = 0; i < NUM_RULES; i++) {
     if (rules[i] == -1) {
       error_and_exit("one or more rules is unset");
     }
   }
   return rules;
-  // if both values are set, return the array
-  // else error and exit
 }
 
 char* parse_im_location_section(char** image_location_text) {
@@ -157,7 +157,7 @@ parsed_tile_textblock* parse_individual_tile_config_textblock(
   size_t im_dir_length = strlen(image_location);
   size_t total_im_path_len =
       im_dir_length + core_im_filename_length + 1;  // +1 for null term
-  char* im_name_ = malloc(sizeof(char*) * total_im_path_len);
+  char* im_name_ = malloc(sizeof(char) * total_im_path_len);
   strncpy(im_name_, image_location, im_dir_length);
   strncpy(im_name_ + im_dir_length,
           textblock->im_name_line + 1 + strlen(YAML_TILE_IM_NAME_START),
@@ -213,10 +213,16 @@ tile** add_to_tile_pointer_array(tile** current_array, size_t num_added_tiles,
 
 tile** generate_tiles(char* input_yaml_filename, size_t* tiles_len) {
   FILE* input_yaml = fopen(input_yaml_filename, "re");
+  if (!input_yaml) {
+    error_and_exit("Error with opening your input file");
+  }
+
   split_yaml* sectioned_yaml = get_text_split_sections(input_yaml);
   int* rules = parse_rules_section(sectioned_yaml->rules_section);
+  // error_and_exit("test");
   char* im_location = parse_im_location_section(sectioned_yaml->imdir_section);
   size_t tile_config_num = 0;
+  // error_and_exit("test");
   tile_textblock** tile_config_blocks =
       parse_tiles_section(sectioned_yaml->tiles_section, &tile_config_num);
   parsed_tile_textblock* parsed_tile = NULL;
