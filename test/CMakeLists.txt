@@ -15,12 +15,12 @@ list(APPEND CMAKE_CTEST_ARGUMENTS --verbose)
 #     COMMAND test_collapser ${CRITERION_FLAGS}
 # )
 
-# add_executable(test_parser test_parser.c)
-# target_link_libraries(test_parser
-#     PRIVATE parser
-#     PUBLIC ${CRITERION}
-# )
-# add_test(
-#     NAME test_parser
-#     COMMAND test_parser ${CRITERION_FLAGS}
-# )
+add_executable(test_parser test_parser.c)
+target_link_libraries(test_parser
+    PRIVATE parser
+    PUBLIC ${CRITERION}
+)
+add_test(
+    NAME test_parser
+    COMMAND test_parser ${CRITERION_FLAGS}
+)
