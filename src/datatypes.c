@@ -38,10 +38,10 @@ parsed_tile_textblock* make_parsed_tile_textblock(char* im_name_,
       malloc(sizeof(parsed_tile_textblock));
   char* block_edges = malloc(sizeof(char) * strlen(edges_));
   char* block_im_name = malloc(sizeof(char) * strlen(im_name_));
-  block_edges = edges_;
-  block_edges[strlen(edges_)] = '\0';
-  block_im_name = im_name_;
-  block_im_name[strlen(im_name_)] = '\0';
+  strncpy(block_edges, edges_, strlen(edges_));
+  strncpy(block_edges + strlen(edges_), "\0", 1);
+  strncpy(block_im_name, im_name_, strlen(im_name_));
+  strncpy(block_im_name + strlen(im_name_), "\0", 1);
   parsed_textblock->im_name = block_im_name;
   parsed_textblock->edges = block_edges;
 
