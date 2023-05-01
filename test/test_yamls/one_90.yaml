@@ -1,0 +1,14 @@
+---
+#rules
+allow-90-degree-rotations: true
+allow-180-degree-rotations: false
+
+#im_location
+im_location: "./images"
+
+#tiles
+tile:
+ - im_name: "jeff.png"
+ - edges: "abab"
+
+#EOF
