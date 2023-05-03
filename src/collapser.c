@@ -1,9 +1,9 @@
 #include "collapser.h"
 #include "helpers.h"
 
-coords find_lowest_entropy(matrix* cells, size_t num_tiles) {
+coords find_lowest_entropy(matrix* cells) {
   coords lowest_loc = {.x = 0, .y = 0};
-  size_t lowest_entropy = num_tiles;
+  size_t lowest_entropy = cells->num_tiles;
   for (size_t col = 0; col < cells->width; col++) {
     for (size_t row = 0; row < cells->height; row++) {
       if (cells->array[col][row].entropy < lowest_entropy) {

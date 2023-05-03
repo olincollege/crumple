@@ -15,7 +15,7 @@
 * @param num_tiles The number of tiles 
 * @return The coordinates of the lowest-entropy non-collapsed tile in the input.
 */
-coords find_lowest_entropy(matrix *cells, size_t num_tiles);
+coords find_lowest_entropy(matrix *cells);
 
 /* Given a matrix of cells, collapse the lowest-entropy cell to a single tile.
 *
