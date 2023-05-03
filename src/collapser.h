@@ -8,13 +8,27 @@
 * Skips cells with one possibility (i.e. collapsed) because those are already
 * determined.
 * If multiple cells share the lowest non-one entropy, select the one with the
-* highest row/column value.
+* highest row/column value. (i.e. the last one that comes up in row/col nested
+* for loops.)
 * 
 * @param cells The matrix of cells to be searched.
 * @param num_tiles The number of tiles 
 * @return The coordinates of the lowest-entropy non-collapsed tile in the input.
 */
 coords find_lowest_entropy(matrix *cells, size_t num_tiles);
+
+/* Given a matrix of cells, collapse the lowest-entropy cell to a single tile.
+*
+* Uses find_lowest_entropy to find the lowest-entropy cell in a matrix. Then,
+* uses the rand() function to determine which out of the remaining tiles to 
+* select. Sets all other tile pointers in the cell to NULL then sets entropy
+* of the cell to 1.
+*
+* If the cell already has an entropy of 1, no-op.
+* 
+* @param cells The matrix of cells to be searched.
+*/
+void collapse_lowest_entropy(matrix* cells);
 
 /* Given the coordinates to a collapsed tile, update its neighbors' possibilities.
 *
