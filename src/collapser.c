@@ -16,6 +16,21 @@ coords find_lowest_entropy(matrix* cells) {
   return lowest_loc;
 }
 
+void collapse_lowest_entropy(matrix *cells, unsigned int* seed) {
+  coords lowest_loc = find_lowest_entropy(cells);
+  cell* collapse_cell = &cells->array[lowest_loc.x][lowest_loc.y];
+
+  if (collapse_cell->entropy != 1) {
+    int selected_cell = rand_r(seed) % (int) collapse_cell->entropy;
+  
+    for (int i = 0; i < cells->num_tiles; i++) {
+      if (collapse_cell->possibilities[i] != NULL) {
+      
+      }
+    }
+  }
+}
+
 void update_neighbors(matrix* cells, coords loc) {
   tile* self_tile = get_collapsed_tile(cells, loc);
 

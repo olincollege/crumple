@@ -20,15 +20,16 @@ coords find_lowest_entropy(matrix *cells);
 /* Given a matrix of cells, collapse the lowest-entropy cell to a single tile.
 *
 * Uses find_lowest_entropy to find the lowest-entropy cell in a matrix. Then,
-* uses the rand() function to determine which out of the remaining tiles to 
+* uses the rand_r() function to determine which out of the remaining tiles to 
 * select. Sets all other tile pointers in the cell to NULL then sets entropy
 * of the cell to 1.
 *
 * If the cell already has an entropy of 1, no-op.
 * 
 * @param cells The matrix of cells to be searched.
+* @param seed The seed for the random number generator used.
 */
-void collapse_lowest_entropy(matrix* cells);
+void collapse_lowest_entropy(matrix* cells, unsigned int* seed);
 
 /* Given the coordinates to a collapsed tile, update its neighbors' possibilities.
 *
