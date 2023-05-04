@@ -35,21 +35,19 @@ typedef struct {
 } coords;
 
 typedef struct {
-  FILE* image;
+  char* image;
   size_t rotation;
   char* edges;
 
 } tile;
 
 typedef struct {
-
   size_t entropy;
   tile** possibilities;
 
 } cell;
 
 typedef struct {
-
   size_t height;
   size_t width;
   cell** array;
@@ -58,12 +56,9 @@ typedef struct {
 
 } matrix;
 
-enum allocation_type {
-    NO_ALLOCATION, SELF_ALLOCATED, STB_ALLOCATED
-};
+enum allocation_type { NO_ALLOCATION, SELF_ALLOCATED, STB_ALLOCATED };
 
 typedef struct {
-
   int width;
   int height;
   int channels;
@@ -74,7 +69,6 @@ typedef struct {
 } Image;
 
 typedef struct {
-
   char** rules_section;
   char** imdir_section;
   char** tiles_section;
@@ -82,7 +76,6 @@ typedef struct {
 } split_yaml;
 
 typedef struct {
-
   char* im_name_line;
   char* edges_line;
 
@@ -93,7 +86,6 @@ tile_textblock* make_tile_textblock(char* im_name_line_, char* edges_line_);
 void free_tile_textblock(tile_textblock* tile_textblock_);
 
 typedef struct {
-
   char* im_name;
   char* edges;
 
@@ -113,7 +105,7 @@ int free_cell(cell* cellp);
 /**
  * Makes tile and does all the rotating of the edges
  */
-tile* make_tile(FILE* image_file, size_t rotation, char* edges_orig);
+tile* make_tile(char* image_file, size_t rotation, char* edges_orig);
 
 int free_tile(tile* tile_);
 

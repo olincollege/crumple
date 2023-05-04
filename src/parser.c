@@ -177,20 +177,19 @@ parsed_tile_textblock* parse_individual_tile_config_textblock(
 
 tile** generate_tile_rotations(parsed_tile_textblock* parsed_block, int* rules,
                                size_t* num_generated) {
-  FILE* image_file = fopen(parsed_block->im_name, "re");
   size_t arr_index = 0;
   size_t num_rots = 1 + (size_t)rules[0] * 2 + (size_t)rules[1];
   tile** tiles = malloc(sizeof(tile*) * num_rots);
-  tiles[arr_index] = make_tile(image_file, 0, parsed_block->edges);
+  tiles[arr_index] = make_tile(parsed_block->im_name, 0, parsed_block->edges);
   ++arr_index;
   if (rules[0]) {  // 90 degree rotations
-    tiles[arr_index] = make_tile(image_file, 1, parsed_block->edges);
+    tiles[arr_index] = make_tile(parsed_block->im_name, 1, parsed_block->edges);
     ++arr_index;
-    tiles[arr_index] = make_tile(image_file, 3, parsed_block->edges);
+    tiles[arr_index] = make_tile(parsed_block->im_name, 3, parsed_block->edges);
     ++arr_index;
   }
   if (rules[1]) {  // 180 degree rotations
-    tiles[arr_index] = make_tile(image_file, 2, parsed_block->edges);
+    tiles[arr_index] = make_tile(parsed_block->im_name, 2, parsed_block->edges);
   }
   (*num_generated) = num_rots;
   free_parsed_tile_textblock(parsed_block);
