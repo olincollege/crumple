@@ -13,6 +13,10 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include <stb/stb_image_write.h>
 
+#define HEIGHT 1080
+#define WIDTH 1080
+
+
 void image_free(Image *img){
   if(img->allocation_ != NO_ALLOCATION && img->data !=NULL){
     if(img->allocation_ == STB_ALLOCATED){
@@ -102,11 +106,50 @@ void place_image(Image *bkg, Image *tile, coords posi){
   }
 }
 
+void make_output(matrix* cells, char* fout_name){
+   
+  Image tile_img, bg_img;
+
+  image_create(&bg_img, HEIGHT, WIDTH, 3, true); 
+  ON_ERROR_EXIT(tile_img.data==NULL, "Image couldn't be loaded");
+  printf("Success!\nCreated BG img (%ix%i), and %i channels\n", bg_img.width, bg_img.height, bg_img.channels);
+
+  // move cwd to img folder or add /img/ to filename
+  
+  chdir("../img/");
+  
+  for ( size_t xloc = 0; xloc<cells->width; ++xloc){
+    Image t_img;
+    for ( size_t yloc = 0; yloc<cells->height; ++yloc){
+      
+      image_load(t_img, cells->array[xloc][yloc]->image);
+      
+    }
+    
+  }
+
+  // loop
+  // get tile filename
+  //
+  //open image
+  // get tile data
+  // copy data to correct loc 
+  // free image
+  // loop end
+  // save image
+  // 
+  //
+}
+
+
 int main(void) {
   // ...
   Image tile_img, bg_img;
 
-  char* bg_filename = "blank.png";
+  image_create(&bg_img, 1080, 1080, 3, true); 
+  ON_ERROR_EXIT(tile_img.data==NULL, "Image couldn't be loaded");
+  printf("Success!\nLoaded BG img (%ix%i), and %i channels\n", bg_img.width, bg_img.height, bg_img.channels);
+  
   char* tile_filename = "tile.png";
   
   char buf[256];
@@ -126,10 +169,6 @@ int main(void) {
   ON_ERROR_EXIT(tile_img.data==NULL, "Image couldn't be loaded");
   printf("Success!\nLoaded img (%ix%i), and %i channels\n", tile_img.width, tile_img.height, tile_img.channels);
 
-  image_load(&bg_img,bg_filename);
-  ON_ERROR_EXIT(bg_img.data==NULL, "Image couldn't be loaded");
-  printf("Success!\nLoaded img (%ix%i), and %i channels\n", bg_img.width, bg_img.height, bg_img.channels);
-
   // test whole bg tiling
   //for (size_t x_c = 0; x_c < bg_img.width/tile_img.width;++x_c){
   //  for (size_t y_c = 0; y_c < bg_img.height/tile_img.height;++y_c){ 
@@ -137,6 +176,7 @@ int main(void) {
   //    place_image(&bg_img, &tile_img, coors);
   //  }
   //}
+  
   coords coors= {.x=2,.y=0};
  
   place_image(&bg_img, &tile_img, coors);

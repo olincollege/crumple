@@ -70,4 +70,4 @@ void image_load(Image *img, const char *filename);
 void image_save(Image *img, const char *filename);
 
 
-
+void make_output(matrix* cells, char* fout_name);
