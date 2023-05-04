@@ -26,3 +26,19 @@
  * @param error_msg The error message to print.
  */
 noreturn void error_and_exit(const char* error_msg);
+
+/** 
+ * Return a pointer to the tile object that a collapsed cell has resolved to.
+ *
+ * Since we're storing invalid tiles within a cell as NULL pointers, we can't
+ * just get the first tile in a cell's possibilities. This function goes through
+ * the possibilities and returns the non-null tile.
+ * 
+ * Errors and exits if the entropy of the cell isn't exactly 1.
+ * Errors and exits if every tile in the cell is NULL.
+ * 
+ * @param cells The matrix of cells to work with.
+ * @param loc The coordinates of the specific cell to look at.
+ * @return A tile pointer to the remaining valid tile object in the cell.
+ */
+tile* get_collapsed_tile(matrix* cells, coords loc);
