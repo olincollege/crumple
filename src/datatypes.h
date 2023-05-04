@@ -25,6 +25,9 @@ static const char YAML_TILE_START[] = "tile:";
 static const char YAML_TILE_IM_NAME_START[] = " - im_name: ";
 static const char YAML_TILE_EDGES_START[] = " - edges: ";
 
+static const int X_OFFSET[] = {0, 1, 0, -1};
+static const int Y_OFFSET[] = {1, 0, -1, 0};
+
 typedef struct {
   size_t x;
   size_t y;
@@ -32,43 +35,57 @@ typedef struct {
 } coords;
 
 typedef struct {
+  FILE* image;
+  size_t rotation;
+  char* edges;
+
+} tile;
+
+typedef struct {
+
   size_t entropy;
+  tile** possibilities;
 
 } cell;
 
 typedef struct {
+
   size_t height;
   size_t width;
   cell** array;
+  size_t num_tiles;
+  tile* all_tiles;
 
 } matrix;
 
-typedef struct {
-  FILE* image;
-  size_t rotation;
-  char* edges;
-} tile;
-
-enum allocation_type { NO_ALLOCATION, SELF_ALLOCATED, STB_ALLOCATED };
+enum allocation_type {
+    NO_ALLOCATION, SELF_ALLOCATED, STB_ALLOCATED
+};
 
 typedef struct {
+
   int width;
   int height;
   int channels;
   size_t size;
   uint8_t* data;
   enum allocation_type allocation_;
+
 } Image;
 
 typedef struct {
+
   char** rules_section;
   char** imdir_section;
   char** tiles_section;
+
 } split_yaml;
 
 typedef struct {
+
   char* im_name_line;
   char* edges_line;
+
 } tile_textblock;
 
 tile_textblock* make_tile_textblock(char* im_name_line_, char* edges_line_);
@@ -76,8 +93,10 @@ tile_textblock* make_tile_textblock(char* im_name_line_, char* edges_line_);
 void free_tile_textblock(tile_textblock* tile_textblock_);
 
 typedef struct {
+
   char* im_name;
   char* edges;
+
 } parsed_tile_textblock;
 
 parsed_tile_textblock* make_parsed_tile_textblock(char* im_name_, char* edges_);
