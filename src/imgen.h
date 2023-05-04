@@ -72,9 +72,17 @@ void image_save(Image *img, const char *filename);
 
 /**
  * Assembles final output image from matrix of tiles.
- *
  * 
- *
+ * Given a populated matrix struct, the function creates a zeroed output image, and 
+ * moves the current working directory into the /img/ directory. The function 
+ * then iterates through each cell of the matrix, copies the corresponding 
+ * tile (of entropy 1) to the output image at the equivelant cell coordinates 
+ * in the image. During each cycle of this loop a new temporary image struct is
+ * created, loaded with the appropriate tile, then freed from memory. Once the 
+ * loop completes, all tiles will have been placed; the function saves the image
+ * then frees it from memory.
+ * 
+ * @param cells The (assumed to be) populated matrix. 
  *
  */
 void make_output(matrix* cells);

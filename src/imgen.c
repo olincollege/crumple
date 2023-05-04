@@ -13,6 +13,7 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include <stb/stb_image_write.h>
 
+// default image width, height
 #define HEIGHT 1080
 #define WIDTH 1080
 
@@ -115,6 +116,7 @@ void make_output(matrix* cells){
   printf("Success!\nCreated BG img (%ix%i), and %i channels\n", out_img.width, out_img.height, out_img.channels);
 
   // move cwd to img folder or add /img/ to filename 
+  // @lxbtlr TODO: check where executable is created and adjust this accordingly
   chdir("../img/");
   
   for ( size_t xloc = 0; xloc<cells->width; ++xloc){
