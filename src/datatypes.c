@@ -54,9 +54,12 @@ void free_parsed_tile_textblock(parsed_tile_textblock* parsed_tile_textblock_) {
   free(parsed_tile_textblock_);
 }
 
-tile* make_tile(FILE* image_file, size_t rotation, char* edges_orig) {
+tile* make_tile(char* image_file, size_t rotation, char* edges_orig) {
   tile* tile_ = malloc(sizeof(tile));
-  tile_->image = image_file;
+  char* tile_image = malloc((strlen(image_file) + 1) * sizeof(char));
+  strncpy(tile_image, image_file, strlen(image_file));
+  strncpy(tile_image + strlen(image_file), "\0", 1);
+  tile_->image = tile_image;
   tile_->rotation = rotation;
   char* new_edges = make_and_rotate_edges(edges_orig, rotation);
   tile_->edges = new_edges;
