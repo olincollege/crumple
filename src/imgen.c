@@ -106,83 +106,34 @@ void place_image(Image *bkg, Image *tile, coords posi){
   }
 }
 
-void make_output(matrix* cells, char* fout_name){
+void make_output(matrix* cells){
    
-  Image tile_img, bg_img;
+  Image tile_img, out_img;
 
-  image_create(&bg_img, HEIGHT, WIDTH, 3, true); 
+  image_create(&out_img, HEIGHT, WIDTH, 3, true); 
   ON_ERROR_EXIT(tile_img.data==NULL, "Image couldn't be loaded");
-  printf("Success!\nCreated BG img (%ix%i), and %i channels\n", bg_img.width, bg_img.height, bg_img.channels);
+  printf("Success!\nCreated BG img (%ix%i), and %i channels\n", out_img.width, out_img.height, out_img.channels);
 
-  // move cwd to img folder or add /img/ to filename
-  
+  // move cwd to img folder or add /img/ to filename 
   chdir("../img/");
   
   for ( size_t xloc = 0; xloc<cells->width; ++xloc){
+    // temp image
     Image t_img;
     for ( size_t yloc = 0; yloc<cells->height; ++yloc){
+      coords t_coords = {.x = xloc, .y = yloc};
       
-      image_load(t_img, cells->array[xloc][yloc]->image);
+      // load image into memory
+      image_load(&t_img, get_collapsed_tile(cells,t_coords)->image);
       
+      // place tile
+      place_image(&out_img, &t_img, t_coords);
+      // free image from memory
+      image_free(&t_img);
     }
     
   }
-
-  // loop
-  // get tile filename
-  //
-  //open image
-  // get tile data
-  // copy data to correct loc 
-  // free image
-  // loop end
   // save image
-  // 
-  //
+  image_save(&out_img, "Output.jpg");
+  image_free(&out_img);
 }
-
-
-int main(void) {
-  // ...
-  Image tile_img, bg_img;
-
-  image_create(&bg_img, 1080, 1080, 3, true); 
-  ON_ERROR_EXIT(tile_img.data==NULL, "Image couldn't be loaded");
-  printf("Success!\nLoaded BG img (%ix%i), and %i channels\n", bg_img.width, bg_img.height, bg_img.channels);
-  
-  char* tile_filename = "tile.png";
-  
-  char buf[256];
-  
-  if (getcwd(buf, sizeof(buf))==NULL){
-    printf("ERROR: couldnt get cwd\n");
-  }
-  // currently running out of src dir
-  //backing out from src to toplevel to img/  
-  
-  chdir("../img/");
-  getcwd(buf, sizeof(buf));
-  printf(buf); 
-  printf("\n");
-
-  image_load(&tile_img,tile_filename);
-  ON_ERROR_EXIT(tile_img.data==NULL, "Image couldn't be loaded");
-  printf("Success!\nLoaded img (%ix%i), and %i channels\n", tile_img.width, tile_img.height, tile_img.channels);
-
-  // test whole bg tiling
-  //for (size_t x_c = 0; x_c < bg_img.width/tile_img.width;++x_c){
-  //  for (size_t y_c = 0; y_c < bg_img.height/tile_img.height;++y_c){ 
-  //    coords coors= {.x=x_c,.y=y_c}; 
-  //    place_image(&bg_img, &tile_img, coors);
-  //  }
-  //}
-  
-  coords coors= {.x=2,.y=0};
- 
-  place_image(&bg_img, &tile_img, coors);
-  image_save(&bg_img, "newimg.jpg");
-
-  image_free(&tile_img);
-  image_free(&bg_img);
-}
-
