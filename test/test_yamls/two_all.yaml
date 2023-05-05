@@ -8,15 +8,15 @@ allow-90-degree-rotations: true
 allow-180-degree-rotations: true
 
 #im_location
-im_location: "./img"
+im_location: "../../test/test_img"
 
 #tiles
 tile:
- - im_name: "jeff.png"
- - edges: "abab"
+ - im_name: "blank.png"
+ - edges: "aaaa"
 
 tile:
- - im_name: "markus.png"
- - edges: "baba"
+ - im_name: "tile1.png"
+ - edges: "aabb"
 
 #EOF
