@@ -45,6 +45,7 @@ int main(int argc, char* argv[]) {
       printf("matrix not collapsed. repeating...\n");
       coords c_low_ent = collapse_lowest_entropy(mat,&seed);
       printf("collapsed (%zu,%zu)\n",c_low_ent.x,c_low_ent.y);
+      printf("updating neighbors...\n");
       update_neighbors(mat, c_low_ent);
     }
     else{
