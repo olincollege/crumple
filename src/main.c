@@ -41,7 +41,7 @@ int main(int argc, char* argv[]) {
     size_t ced = 1;
     for (size_t xloc = 0; xloc < mat->width; ++xloc) {
       for (size_t yloc = 0; yloc < mat->height; ++yloc) {
-        if (mat->array[xloc][yloc].entropy != 1) {
+        if (mat->array[yloc][xloc].entropy != 1) {
           ced = 0;
         }
       }
