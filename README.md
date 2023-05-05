@@ -4,7 +4,7 @@ Alex, Aydin, and Han implementing wave function collapse for Software Systems SP
 
 This project uses wavefunction to collapse to implement grid-based procedural image generation.
 
-##Usage instructions
+## Usage instructions
 Clone the repository, and build the project. We built using GCC 12.1.0, other compilers may work but are not guaranteed to.
 
 To input images and rules, you'll need to create a yaml config file and an directory to store your images (and put your images there). See example.yaml and example_imdir for examples. Please note that the yaml parsing is tempermental, so please stick to the formatting in the example as closely as possible.
@@ -14,5 +14,5 @@ To generate your procedurally-generated image, run the main executable generated
 ## Dependencies
 STB_image
 
-##Known Bugs
+## Known Bugs
 When inputting image filenames, an extra character is sometimes added to the end during parsing for unknown reasons, which causes issues. Putting the tiles configurations with the shorter (length) names first in the yaml may fix this, as may changing the filenames.
