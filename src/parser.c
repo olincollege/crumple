@@ -299,8 +299,11 @@ matrix* generate_matrix(char* input_yaml_filename) {
       make_cell_array(dimensions[1], dimensions[0], tiles_len, tiles);
   // clang gives memory leak warnings here. There is the possibility of a memory
   // leak here, that is true and being taken into consideration.
+
   matrix* matrix_ =
       make_matrix(cell_array, dimensions[1], dimensions[0], tiles_len, tiles);
+  
+
   free(im_location);
   free(rules);  // gotta valgrind all this shit
   free(sectioned_yaml);
