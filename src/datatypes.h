@@ -7,12 +7,17 @@
 
 enum { EDGES_CHAR_ARRAY_LEN = 5 };  // 4 + 1 for null pointer
 enum { NUM_EDGES = 4 };
+enum { NUM_DIMENSIONS = 2 };
 
 static const char YAML_START_LINE[] = "---";
+static const char YAML_DIMENSIONS_HEADER[] = "#dimensions";
 static const char YAML_RULES_HEADER[] = "#rules";
 static const char YAML_IM_LOCATION_HEADER[] = "#im_location";
 static const char YAML_TILES_HEADER[] = "#tiles";
 static const char YAML_END_MARKER[] = "#EOF";
+
+static const char YAML_HEIGHT_DIMENSION_START[] = "height: ";
+static const char YAML_WIDTH_DIMENSION_START[] = "width: ";
 
 static const char YAML_90_DEGREE_RULE_START[] = "allow-90-degree-rotations: ";
 static const char YAML_180_DEGREE_RULE_START[] = "allow-180-degree-rotations: ";
@@ -52,7 +57,7 @@ typedef struct {
   size_t width;
   cell** array;
   size_t num_tiles;
-  tile* all_tiles;
+  tile** all_tiles;
 
 } matrix;
 
@@ -69,6 +74,7 @@ typedef struct {
 } Image;
 
 typedef struct {
+  char** dimensions_section;
   char** rules_section;
   char** imdir_section;
   char** tiles_section;
@@ -97,8 +103,11 @@ void free_parsed_tile_textblock(parsed_tile_textblock* parsed_tile_textblock_);
 
 int free_matrix(matrix* matp);
 
-cell* make_cell(tile* tiles);
+cell* make_cell(tile** tiles, size_t num_tiles);
 // init entropy upon first cycle of main loop
+
+matrix* make_matrix(cell** cells, size_t height, size_t width, size_t num_tiles,
+                    tile** alltiles);
 
 int free_cell(cell* cellp);
 
@@ -109,7 +118,7 @@ tile* make_tile(char* image_file, size_t rotation, char* edges_orig);
 
 int free_tile(tile* tile_);
 
-split_yaml* make_split_yaml(char** rules_section_, char** imdir_section_,
-                            char** tiles_section_);
+split_yaml* make_split_yaml(char** dimensions_section_, char** rules_section_,
+                            char** imdir_section_, char** tiles_section_);
 
 int free_split_yaml(split_yaml* split_yaml_);

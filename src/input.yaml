@@ -1,4 +1,8 @@
 ---
+#dimensions
+height: 12
+width: 12
+
 #rules
 allow-90-degree-rotations: false
 allow-180-degree-rotations: true
