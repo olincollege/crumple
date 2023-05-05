@@ -13,20 +13,20 @@ im_location: "./img"
 #tiles
 tile:
  - im_name: "small_pinkdot.jpg."
- - edges: "acaa"
+ - edges: "aaaa"
 tile:
  - im_name: "small_fossil.jpg"
- - edges: "cbab"
+ - edges: "aaaa"
 tile:
  - im_name: "small_cool_line.jpg"
- - edges: "abab"
+ - edges: "aaaa"
 tile:
  - im_name: "small_yoink.jpg"
- - edges: "ccab"
+ - edges: "aaaa"
 tile:
  - im_name: "small_fork.jpg"
- - edges: "bbac"
+ - edges: "aaaa"
 tile:
  - im_name: "small_smiley.jpg"
- - edges: "bbcc"
+ - edges: "aaaa"
 #EOF

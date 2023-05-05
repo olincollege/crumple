@@ -21,7 +21,7 @@ coords collapse_lowest_entropy(matrix *cells, unsigned int* seed) {
   coords lowest_loc = find_lowest_entropy(cells);
   cell* collapse_cell = &cells->array[lowest_loc.x][lowest_loc.y];
   printf("collapsing (%zu, %zu) with entropy of %zu\n", lowest_loc.x,lowest_loc.y, collapse_cell->entropy);
-
+  printf("%zu\n",collapse_cell->entropy);
   int selected_tile = rand_r(seed) % (int) collapse_cell->entropy;
   int valid_tile_num = 0;
 
