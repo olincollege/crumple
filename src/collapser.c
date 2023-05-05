@@ -22,14 +22,23 @@ void collapse_lowest_entropy(matrix *cells, unsigned int* seed) {
   cell* collapse_cell = &cells->array[lowest_loc.x][lowest_loc.y];
 
   if (collapse_cell->entropy != 1) {
-    int selected_cell = rand_r(seed) % (int) collapse_cell->entropy;
+    int selected_tile = rand_r(seed) % (int) collapse_cell->entropy;
+    int valid_tile_num = 0;
   
     for (int i = 0; i < cells->num_tiles; i++) {
       if (collapse_cell->possibilities[i] != NULL) {
-      
+        if (valid_tile_num == selected_tile) {
+          // do stuff
+        } else {
+          collapse_cell->possibilities[i] = NULL;
+        }
+
+        valid_tile_num++;
       }
     }
   }
+
+  collapse_cell->entropy = 1;
 }
 
 void update_neighbors(matrix* cells, coords loc) {
