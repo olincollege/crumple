@@ -15,8 +15,7 @@
 #include <stb/stb_image_write.h>
 
 // default image width, height
-#define HEIGHT 1080
-#define WIDTH 1080
+#define DEFAULT_BLOCK 150
 
 static inline bool str_ends_in(const char*str, const char *ends){
   size_t str_len = strlen(str);
@@ -119,7 +118,7 @@ void make_output(matrix* cells){
    
   Image tile_img, out_img;
 
-  image_create(&out_img, HEIGHT, WIDTH, 3, true); 
+  image_create(&out_img, (size_t)cells->height*DEFAULT_BLOCK, (size_t)cells->width*DEFAULT_BLOCK, 3, true); 
   if (tile_img.data==NULL){
     error_and_exit("Image couldn't be loaded");
   }

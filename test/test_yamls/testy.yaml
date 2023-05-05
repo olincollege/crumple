@@ -1,0 +1,32 @@
+---
+#dimensions
+height: 12
+width: 12
+
+#rules
+allow-90-degree-rotations: false
+allow-180-degree-rotations: false
+
+#im_location
+im_location: "./img"
+
+#tiles
+tile:
+ - im_name: "small_pinkdot.jpg."
+ - edges: "acaa"
+tile:
+ - im_name: "small_fossil.jpg"
+ - edges: "cbab"
+tile:
+ - im_name: "small_cool_line.jpg"
+ - edges: "abab"
+tile:
+ - im_name: "small_yoink.jpg"
+ - edges: "ccab"
+tile:
+ - im_name: "small_fork.jpg"
+ - edges: "bbac"
+tile:
+ - im_name: "small_smiley.jpg"
+ - edges: "bbcc"
+#EOF
