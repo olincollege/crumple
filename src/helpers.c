@@ -12,7 +12,7 @@ void error_and_exit(const char* error_msg) {
 }
 
 tile* get_collapsed_tile(matrix* cells, coords loc) {
-  cell* collapsed_cell = &cells->array[loc.x][loc.y];
+  cell* collapsed_cell = &cells->array[loc.y][loc.x];
 
   if (collapsed_cell->entropy != 1) {
     error_and_exit("Tried to get tile from non-collapsed cell\n");
