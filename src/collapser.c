@@ -6,7 +6,8 @@ coords find_lowest_entropy(matrix* cells) {
   size_t lowest_entropy = cells->num_tiles;
   for (size_t col = 0; col < cells->width; col++) {
     for (size_t row = 0; row < cells->height; row++) {
-      if (cells->array[col][row].entropy < lowest_entropy) {
+      // change to <= to use the first-checked lowest rather than the last
+      if (cells->array[col][row].entropy < lowest_entropy && cells->array[col][row].entropy != 1) {
         lowest_loc.x = col;
         lowest_loc.y = row;
       }
