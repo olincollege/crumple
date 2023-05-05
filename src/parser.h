@@ -6,6 +6,7 @@
 
 enum { MAX_YAML_LINE_LENGTH = 64 };
 enum { MAX_YAML_NUM_LINES = 1024 };
+enum { MAX_YAML_DIMENSIONS_SECTION_LINES = 10 };
 enum { MAX_YAML_RULES_SECTION_LINES = 10 };
 enum { MAX_YAML_IM_LOCATION_SECTION_LINES = 10 };
 enum { MAX_YAML_TILES_SECTION_LINES = 1000 };
@@ -189,4 +190,4 @@ tile** add_to_tile_pointer_array(tile** current_array, size_t num_added_tiles,
  *
  * @return The array of tile pointers generated from the yaml
  */
-tile** generate_tiles(char* input_yaml_filename, size_t* tiles_len);
+matrix* generate_matrix(char* input_yaml_filename);
