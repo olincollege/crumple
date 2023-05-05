@@ -75,6 +75,7 @@ void update_neighbors(matrix* cells, coords loc) {
            loc.x + x_diff, loc.y + y_diff);
 
     cell* neighbor = &cells->array[loc.y + y_diff][loc.x + x_diff];
+    if (neighbor->entropy == 1) { continue; }
 
     for (size_t poss_num = 0; poss_num < cells->num_tiles; poss_num++) {
       // check if the tile is possible or not
