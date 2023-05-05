@@ -6,7 +6,8 @@ coords find_lowest_entropy(matrix* cells) {
   size_t lowest_entropy = cells->num_tiles;
   for (size_t col = 0; col < cells->width; col++) {
     for (size_t row = 0; row < cells->height; row++) {
-      if (cells->array[col][row].entropy < lowest_entropy) {
+      // change to <= to use the first-checked lowest rather than the last
+      if (cells->array[col][row].entropy < lowest_entropy && cells->array[col][row].entropy != 1) {
         lowest_loc.x = col;
         lowest_loc.y = row;
       }
@@ -16,19 +17,29 @@ coords find_lowest_entropy(matrix* cells) {
   return lowest_loc;
 }
 
-void collapse_lowest_entropy(matrix *cells, unsigned int* seed) {
+coords collapse_lowest_entropy(matrix *cells, unsigned int* seed) {
   coords lowest_loc = find_lowest_entropy(cells);
   cell* collapse_cell = &cells->array[lowest_loc.x][lowest_loc.y];
 
   if (collapse_cell->entropy != 1) {
-    int selected_cell = rand_r(seed) % (int) collapse_cell->entropy;
+    int selected_tile = rand_r(seed) % (int) collapse_cell->entropy;
+    int valid_tile_num = 0;
   
     for (int i = 0; i < cells->num_tiles; i++) {
       if (collapse_cell->possibilities[i] != NULL) {
-      
+        if (valid_tile_num == selected_tile) {
+          // do stuff
+        } else {
+          collapse_cell->possibilities[i] = NULL;
+        }
+
+        valid_tile_num++;
       }
     }
   }
+
+  collapse_cell->entropy = 1;
+  return lowest_loc;
 }
 
 void update_neighbors(matrix* cells, coords loc) {
