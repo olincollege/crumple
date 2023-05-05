@@ -8,7 +8,7 @@
 * Skips cells with one possibility (i.e. collapsed) because those are already
 * determined.
 * If multiple cells share the lowest non-one entropy, select the one with the
-* highest row/column value. (i.e. the last one that comes up in row/col nested
+* lowest row/column value. (i.e. the first one that comes up in row/col nested
 * for loops.)
 * 
 * @param cells The matrix of cells to be searched.
@@ -29,7 +29,7 @@ coords find_lowest_entropy(matrix *cells);
 * @param cells The matrix of cells to be searched.
 * @param seed The seed for the random number generator used.
 */
-void collapse_lowest_entropy(matrix* cells, unsigned int* seed);
+coords collapse_lowest_entropy(matrix* cells, unsigned int* seed);
 
 /* Given the coordinates to a collapsed tile, update its neighbors' possibilities.
 *
