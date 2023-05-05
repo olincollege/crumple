@@ -8,6 +8,8 @@ list(APPEND CMAKE_CTEST_ARGUMENTS --verbose)
 add_executable(test_collapser test_collapser.c)
 target_link_libraries(test_collapser
     PRIVATE collapser
+    PRIVATE parser
+    PRIVATE helpers
     PUBLIC ${CRITERION}
 )
 add_test(
