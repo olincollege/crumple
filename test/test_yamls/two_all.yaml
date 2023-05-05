@@ -12,11 +12,11 @@ im_location: "../../test/test_img"
 
 #tiles
 tile:
- - im_name: "blank.png"
- - edges: "aaaa"
+ - im_name: "tile.png"
+ - edges: "abab"
 
 tile:
- - im_name: "tile1.png"
- - edges: "aabb"
+ - im_name: "tile2.png"
+ - edges: "baba"
 
 #EOF
