@@ -242,3 +242,6 @@ tile** generate_tiles(char* input_yaml_filename, size_t* tiles_len) {
   free(sectioned_yaml);
   return tiles;
 }
+
+
+

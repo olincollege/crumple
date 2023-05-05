@@ -1,5 +1,6 @@
 #include "helpers.h"
 
+#include <stddef.h>
 #include <stdio.h>   // perror
 #include <stdlib.h>  // exit, EXIT_FAILURE
 
@@ -25,3 +26,4 @@ tile* get_collapsed_tile(matrix* cells, coords loc) {
 
   error_and_exit("No possibilities were found");
 }
+
