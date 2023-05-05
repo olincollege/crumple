@@ -71,7 +71,7 @@ void update_neighbors(matrix* cells, coords loc) {
     // define the edge to check on the neighbor-tile
     size_t check_dir = (dir + 2) % 4;
 
-    printf("(%zu, %zu) checking neighbor (%zu, %zu)\n", loc.x, loc.y,
+    printf("(%zu, %zu) updating neighbor (%zu, %zu)\n", loc.x, loc.y,
            loc.x + x_diff, loc.y + y_diff);
 
     cell* neighbor = &cells->array[loc.y + y_diff][loc.x + x_diff];
