@@ -169,25 +169,18 @@ tile** add_to_tile_pointer_array(tile** current_array, size_t num_added_tiles,
                                  tile** array_to_add, size_t* curr_len);
 
 /**
- * Generate tiles from a user submitted yaml input file
+ * Generates a matrix of cells and their possibilities from the input yaml file
+ * name
  *
- * Given the name of a user submitted yaml file and the pointer to a size_t to
- * hold the length of the returned array, generate an array of tile struct
- * pointers corresponding to the tiles specified by the input yaml. The parsing
- * is brittle and requires precise formatting. If the tile generation is not
- * successful, error and exit without returning and provide the user as much
- * insight as possible as to why the parsing fails.
- *
- * Frees all memory internally allocated except for the returned tile array.
- *
- * Errors and returns nothing if the any part of this fails (specifies as
- * much as possible in the error message what went wrong).
+ * Open and read the contents of the file corresponding to the input filename.
+ * Parse out the rules, dimensions, image location, and tile configurations, use
+ * those to generate an array of tile pointers corresponding to all the tiles
+ * generated for the given configuration and rules. Pack that all up into the
+ * starter matrix collapser uses. Wrapper around all other parser functions.
  *
  * @param input_yaml_filename The name of the yaml file (or path to it including
  * name)
- * @param tiles_len THe length of the returned tile pointer array, will be
- * written to during execution
  *
- * @return The array of tile pointers generated from the yaml
+ * @return The pointer to the matrix generated from the input yaml.
  */
 matrix* generate_matrix(char* input_yaml_filename);
