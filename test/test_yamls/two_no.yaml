@@ -1,7 +1,7 @@
 ---
 #dimensions
 width: 12
-height: 12
+height: 10
 
 #rules
 allow-90-degree-rotations: false
