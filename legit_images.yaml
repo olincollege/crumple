@@ -1,7 +1,7 @@
 ---
 #dimensions
-height: 2
-width: 5
+height: 12
+width: 12
 
 #rules
 allow-90-degree-rotations: true
@@ -12,7 +12,11 @@ im_location: "./img"
 
 #tiles
 tile:
- - im_name: "small_fork.png"
+ - im_name: "blank.png"
+ - edges: "aaaa"
+
+tile:
+ - im_name: "tile.png"
  - edges: "aabb"
 
 #EOF

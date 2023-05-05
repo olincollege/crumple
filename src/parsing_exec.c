@@ -3,7 +3,7 @@
 #include "parser.h"
 
 int main(void) {
-  matrix* matrix_ = generate_matrix("src/input.yaml");
+  matrix* matrix_ = generate_matrix("legit_images.yaml");
   for (size_t j = 0; j < matrix_->num_tiles; j++) {
     printf("Edges: %s\n", matrix_->all_tiles[j]->edges);
     printf("Image filepath: %s\n", matrix_->all_tiles[j]->image);
