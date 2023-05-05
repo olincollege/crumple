@@ -278,21 +278,22 @@ matrix* generate_matrix(char* input_yaml_filename) {
       parse_tiles_section(sectioned_yaml->tiles_section, &tile_config_num);
   parsed_tile_textblock* parsed_tile = NULL;
   tile** tiles_from_config = NULL;
-  size_t num_gen = 0;
+  size_t num_gen_per_conf = 0;
   tile** tiles = malloc(sizeof(tile*));
   size_t tiles_len = 0;
   for (size_t i = 0; i < tile_config_num; i++) {
     parsed_tile = parse_individual_tile_config_textblock(tile_config_blocks[i],
                                                          im_location);
 
-    tiles_from_config = generate_tile_rotations(parsed_tile, rules, &num_gen);
-    tiles = add_to_tile_pointer_array(tiles, num_gen, tiles_from_config,
-                                      &tiles_len);
+    tiles_from_config =
+        generate_tile_rotations(parsed_tile, rules, &num_gen_per_conf);
+    tiles = add_to_tile_pointer_array(tiles, num_gen_per_conf,
+                                      tiles_from_config, &tiles_len);
   }
   // clang gives memory leak warnings here. There is the possibility of a memory
   // leak here, that is true and being taken into consideration.
   cell** cell_array =
-      make_cell_array(dimensions[1], dimensions[0], num_gen, tiles);
+      make_cell_array(dimensions[1], dimensions[0], tiles_len, tiles);
   // clang gives memory leak warnings here. There is the possibility of a memory
   // leak here, that is true and being taken into consideration.
   matrix* matrix_ =
