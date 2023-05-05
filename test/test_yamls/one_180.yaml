@@ -8,7 +8,7 @@ allow-90-degree-rotations: false
 allow-180-degree-rotations: true
 
 #im_location
-im_location: "./images"
+im_location: "./img"
 
 #tiles
 tile:
