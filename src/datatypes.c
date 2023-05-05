@@ -57,7 +57,7 @@ void free_parsed_tile_textblock(parsed_tile_textblock* parsed_tile_textblock_) {
 cell* make_cell(tile** tiles, size_t num_tiles) {
   cell* cell_ = malloc(sizeof(cell));
   cell_->entropy = num_tiles;
-  tile** possp = malloc(sizeof(tiles));
+  tile** possp = malloc(sizeof(tile*) * num_tiles);
   for (size_t i = 0; i < num_tiles; ++i) {
     possp[i] = tiles[i];
   }

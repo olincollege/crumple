@@ -1,7 +1,7 @@
 ---
 #dimensions
-width: 12
-height: 12
+height: 2
+width: 5
 
 #rules
 allow-90-degree-rotations: true
@@ -13,10 +13,6 @@ im_location: "./img"
 #tiles
 tile:
  - im_name: "tile.png"
- - edges: "abab"
-
-tile:
- - im_name: "tile2.png"
- - edges: "baba"
+ - edges: "aabb"
 
 #EOF

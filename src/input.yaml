@@ -1,10 +1,10 @@
 ---
 #dimensions
-height: 12
-width: 12
+height: 2
+width: 5
 
 #rules
-allow-90-degree-rotations: false
+allow-90-degree-rotations: true
 allow-180-degree-rotations: true
 
 #im_location

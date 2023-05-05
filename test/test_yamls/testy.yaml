@@ -1,0 +1,33 @@
+---
+#dimensions
+height: 10
+width: 10
+
+#rules
+allow-90-degree-rotations: false
+allow-180-degree-rotations: false
+
+#im_location
+im_location: "./img"
+
+#tiles
+tile:
+ - im_name: "small_pinkdot.jpg"
+ - edges: "aaaa"
+
+tile:
+ - im_name: "small_fossil.jpg"
+ - edges: "aaaa"
+
+tile:
+ - im_name: "small_yoink.jpg"
+ - edges: "aaaa"
+
+tile:
+ - im_name: "small_fork.jpg"
+ - edges: "aaaa"
+
+tile:
+ - im_name: "small_smiley.jpg"
+ - edges: "aaaa"
+#EOF
