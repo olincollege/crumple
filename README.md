@@ -7,7 +7,6 @@ This project uses wavefunction to collapse to implement grid-based procedural im
 ## Installation
 Due to all devs of this project running linux operating systems, all compatilibity has only been verified on linux systems.
 ### Installing STB / STB_image
-
 1. Clone the project's git repository:
 ```C
 $ git clone https://github.com/nothings/stb.git
@@ -44,3 +43,6 @@ To generate your procedurally-generated image, run the main executable generated
 STB_image
 
 GCC 12.1.0 (other compilers may work but are not guaranteed to.)
+
+## Known Bugs
+When inputting image filenames, an extra character is sometimes added to the end during parsing for unknown reasons, which causes issues. Putting the tiles configurations with the shorter (length) names first in the yaml may fix this, as may changing the filenames.
