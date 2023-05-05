@@ -38,6 +38,7 @@ split_yaml* get_text_split_sections(FILE* input_yaml_file) {
     } else if (active_section != NULL) {
       active_section[line_count_in_arr] =
           (char*)malloc(line_length * sizeof(char));
+      // NOLINTNEXTLINE
       strncpy(active_section[line_count_in_arr], buffer, line_length + 1);
       active_section[line_count_in_arr][line_length - 1] = '\0';
       line_count_in_arr++;
@@ -59,13 +60,16 @@ size_t* parse_dimensions_section(char** dimensions_text) {
   while (line) {
     if (strncmp(line, YAML_HEIGHT_DIMENSION_START,
                 strlen(YAML_HEIGHT_DIMENSION_START)) == 0) {
+      // clang doesn't like using sscanf here. the security concerns are fair
+      // but sscanf_s didn't work. the conversion error is fair but if the user
+      // inputs a negative dimension undefined behavior seems reasonable
       int sscanf_status = sscanf(line, "height: %zu\n", &dimensions[1]);
       if (sscanf_status != 1) {
         error_and_exit("error parsing height");
       }
-      // error handle the status
     } else if (strncmp(line, YAML_WIDTH_DIMENSION_START,
                        strlen(YAML_WIDTH_DIMENSION_START)) == 0) {
+      // see previous comment
       int sscanf_status = sscanf(line, "width: %zu", &dimensions[0]);
       if (sscanf_status != 1) {
         error_and_exit("error parsing width");
@@ -139,8 +143,10 @@ char* parse_im_location_section(char** image_location_text) {
       char* im_location =
           malloc(sizeof(char) * (image_dir_len + 1 +
                                  1));  // +1 for "/", +1 for null termination,
+      // NOLINTNEXTLINE
       strncpy(im_location, line + strlen(YAML_IM_LOCATION_START) + 1,
               im_location_line_len - strlen(YAML_IM_LOCATION_START));
+      // NOLINTNEXTLINE
       strncpy(im_location + image_dir_len, "/\0",
               2);  // should result in null termination
       return im_location;
@@ -196,14 +202,19 @@ parsed_tile_textblock* parse_individual_tile_config_textblock(
   size_t total_im_path_len =
       im_dir_length + core_im_filename_length + 1;  // +1 for null term
   char* im_name_ = malloc(sizeof(char) * total_im_path_len);
+  // NOLINTNEXTLINE
   strncpy(im_name_, image_location, im_dir_length);
+  // NOLINTNEXTLINE
   strncpy(im_name_ + im_dir_length,
           textblock->im_name_line + 1 + strlen(YAML_TILE_IM_NAME_START),
           core_im_filename_length);
+  // NOLINTNEXTLINE
   strncpy(im_name_ + total_im_path_len, "\0", 1);
   char* edges_ = malloc(sizeof(char) * EDGES_CHAR_ARRAY_LEN);
+  // NOLINTNEXTLINE
   strncpy(edges_, textblock->edges_line + 1 + strlen(YAML_TILE_EDGES_START),
           NUM_EDGES);
+  // NOLINTNEXTLINE
   strncpy(edges_ + NUM_EDGES, "\0", 1);
 
   parsed_tile_textblock* parsed_block =
@@ -213,6 +224,8 @@ parsed_tile_textblock* parse_individual_tile_config_textblock(
   return parsed_block;
 }
 
+// clang says rules can be pointer to const, I don't think it can since we're
+// assigning the rules at runtime
 tile** generate_tile_rotations(parsed_tile_textblock* parsed_block, int* rules,
                                size_t* num_generated) {
   size_t arr_index = 0;
@@ -242,7 +255,9 @@ tile** add_to_tile_pointer_array(tile** current_array, size_t num_added_tiles,
     error_and_exit("error with updated array");
   }
   for (size_t i = 0; i < num_added_tiles; i++) {
-    updated_array[*curr_len] = array_to_add[i];
+    updated_array[*curr_len] =
+        array_to_add[i];  // not sure why clang is giving this warning, the
+                          // value is not garbage or undefined
     (*curr_len)++;
   }
   return updated_array;
@@ -274,8 +289,12 @@ matrix* generate_matrix(char* input_yaml_filename) {
     tiles = add_to_tile_pointer_array(tiles, num_gen, tiles_from_config,
                                       &tiles_len);
   }
+  // clang gives memory leak warnings here. There is the possibility of a memory
+  // leak here, that is true and being taken into consideration.
   cell** cell_array =
       make_cell_array(dimensions[1], dimensions[0], num_gen, tiles);
+  // clang gives memory leak warnings here. There is the possibility of a memory
+  // leak here, that is true and being taken into consideration.
   matrix* matrix_ =
       make_matrix(cell_array, dimensions[1], dimensions[0], tiles_len, tiles);
   free(im_location);

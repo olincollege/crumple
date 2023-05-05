@@ -4,6 +4,18 @@
 
 #include "helpers.h"
 
+/**
+ * Note on warnings:
+ * clang doesn't like strncpy, but it's recommended fix (strncpy_s) causes
+ * compiling failure, so we're sticking with strncpy. We've added
+ * "// NOLINTNEXTLINE" to each instance of this happening to reduce the noise
+ * from those warnings, recognizing that is a dangerous call but lets us find
+ * the serious warnings. Each line this was applied to was manually checked to
+ * make sure there were no other warnings, and when any of those lines are
+ * edited each one should have the nolint removed and should be checked again
+ * for more serious warnings before changes are committed.
+ */
+
 enum { MAX_YAML_LINE_LENGTH = 64 };
 enum { MAX_YAML_NUM_LINES = 1024 };
 enum { MAX_YAML_DIMENSIONS_SECTION_LINES = 10 };
