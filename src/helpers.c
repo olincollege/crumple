@@ -15,7 +15,7 @@ tile* get_collapsed_tile(matrix* cells, coords loc) {
   cell* collapsed_cell = &cells->array[loc.x][loc.y];
 
   if (collapsed_cell->entropy != 1) {
-    error_and_exit("Tried to get tile from non-collapsed cell");
+    error_and_exit("Tried to get tile from non-collapsed cell\n");
   }
 
   for (size_t i = 0; i < cells->num_tiles; i++) {
@@ -24,7 +24,7 @@ tile* get_collapsed_tile(matrix* cells, coords loc) {
     }
   }
 
-  error_and_exit("No possibilities were found");
+  error_and_exit("No possibilities were found\n");
 }
 
 cell** make_cell_array(size_t height, size_t width, size_t num_tiles,
