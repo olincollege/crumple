@@ -13,3 +13,6 @@ To generate your procedurally-generated image, run the main executable generated
 
 ## Dependencies
 STB_image
+
+##Known Bugs
+When inputting image filenames, an extra character is sometimes added to the end during parsing for unknown reasons, which causes issues. Putting the tiles configurations with the shorter (length) names first in the yaml may fix this, as may changing the filenames.
