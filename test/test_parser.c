@@ -8,51 +8,78 @@
 
 #include "../src/parser.h"
 
-// Test(generate_tiles, no_conf) {
-//   size_t num_gen = 0;
-//   size_t expected_num_gen = 0;
-//   generate_tiles("../../test/test_yamls/no_configs.yaml", &num_gen);
-//   cr_assert_eq(expected_num_gen, num_gen);
-// }
+/**
+ * NOTE: The tests crash when the name is too long or the filename is too long,
+ * I'm not sure why. The test and file names have accordingly been heavily
+ * abbreviated, with clarifying comments above each test
+ */
 
-// Test(generate_tiles, one_conf_no_rot) {
-//   size_t num_gen = 0;
-//   size_t expected_num_gen = 1;
-//   tile** tiles = generate_tiles("../../test/test_yamls/one_no.yaml",
-//   &num_gen); cr_assert_eq(expected_num_gen, num_gen);
-// }
+/**
+ * Checking: the correct number of tiles are generated
+ * Input: No tile configurations provided
+ */
+Test(generate_matrix, num_tiles_no_conf) {
+  matrix* mat = generate_matrix("../../test/test_yamls/no_configs.yaml");
+  size_t expected = 0;
+  cr_assert_eq(expected, mat->num_tiles);
+}
 
-// Test(generate_tiles, one_conf_90_rot) {
-//   size_t num_gen = 0;
-//   size_t expected_num_gen = 3;
-//   tile** tiles = generate_tiles("../../test/test_yamls/one_90.yaml",
-//   &num_gen); cr_assert_eq(expected_num_gen, num_gen);
-// }
+/**
+ * Checking: the correct number of tiles are generated
+ * Input: One configuration provided, no rotations allowed
+ */
+Test(generate_matrix, num_one_no) {
+  matrix* mat = generate_matrix("../../test/test_yamls/one_no.yaml");
+  size_t expected = 1;
+  cr_assert_eq(expected, mat->num_tiles);
+}
 
-// Test(generate_tiles, one_conf_180_rot) {
-//   size_t num_gen = 0;
-//   size_t expected_num_gen = 2;
-//   tile** tiles = generate_tiles("../../test/test_yamls/one_180.yaml",
-//   &num_gen); cr_assert_eq(expected_num_gen, num_gen);
-// }
+/**
+ * Checking: the correct number of tiles are generated
+ * Input: One configuration provided, 90 degree rotations allowed
+ */
+Test(generate_matrix, num_one_90) {
+  matrix* mat = generate_matrix("../../test/test_yamls/one_90.yaml");
+  size_t expected = 3;
+  cr_assert_eq(expected, mat->num_tiles);
+}
 
-// Test(generate_tiles, one_conf_all_rot) {
-//   size_t num_gen = 0;
-//   size_t expected_num_gen = 4;
-//   tile** tiles = generate_tiles("../../test/test_yamls/one_all.yaml",
-//   &num_gen); cr_assert_eq(expected_num_gen, num_gen);
-// }
+/**
+ * Checking: the correct number of tiles are generated
+ * Input: One configuration provided, 180 degree rotations allowed
+ */
+Test(generate_matrix, num_one_180) {
+  matrix* mat = generate_matrix("../../test/test_yamls/one_180.yaml");
+  size_t expected = 2;
+  cr_assert_eq(expected, mat->num_tiles);
+}
 
-// Test(generate_tiles, two_conf_no_rot) {
-//   size_t num_gen = 0;
-//   size_t expected_num_gen = 2;
-//   generate_tiles("../../test/test_yamls/two_no.yaml", &num_gen);
-//   cr_assert_eq(expected_num_gen, num_gen);
-// }
+/**
+ * Checking: the correct number of tiles are generated
+ * Input: One configuration provided, all rotations allowed
+ */
+Test(generate_matrix, num_one_all) {
+  matrix* mat = generate_matrix("../../test/test_yamls/one_all.yaml");
+  size_t expected = 4;
+  cr_assert_eq(expected, mat->num_tiles);
+}
 
-// Test(generate_tiles, two_conf_all_rot) {
-//   size_t num_gen = 0;
-//   size_t expected_num_gen = 8;
-//   generate_tiles("../../test/test_yamls/two_all.yaml", &num_gen);
-//   cr_assert_eq(expected_num_gen, num_gen);
-// }
+/**
+ * Checking: the correct number of tiles are generated
+ * Input: Two configurations provided, no degree rotations allowed
+ */
+Test(generate_matrix, num_two_no) {
+  matrix* mat = generate_matrix("../../test/test_yamls/two_no.yaml");
+  size_t expected = 2;
+  cr_assert_eq(expected, mat->num_tiles);
+}
+
+/**
+ * Checking: the correct number of tiles are generated
+ * Input: Two configurations provided, all degree rotations allowed
+ */
+Test(generate_matrix, num_two_all) {
+  matrix* mat = generate_matrix("../../test/test_yamls/two_all.yaml");
+  size_t expected = 8;
+  cr_assert_eq(expected, mat->num_tiles);
+}
