@@ -276,10 +276,14 @@ matrix* generate_matrix(char* input_yaml_filename) {
     tiles = add_to_tile_pointer_array(tiles, num_gen, tiles_from_config,
                                       &tiles_len);
   }
+
   cell** cell_array =
       make_cell_array(dimensions[1], dimensions[0], num_gen, tiles);
+  
   matrix* matrix_ =
       make_matrix(cell_array, dimensions[1], dimensions[0], tiles_len, tiles);
+  
+
   free(im_location);
   free(rules);  // gotta valgrind all this shit
   free(sectioned_yaml);
