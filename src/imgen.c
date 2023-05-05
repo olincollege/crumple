@@ -126,7 +126,7 @@ void make_output(matrix* cells){
 
   // move cwd to img folder or add /img/ to filename 
   // @lxbtlr TODO: check where executable is created and adjust this accordingly
-  chdir("../img/");
+  chdir("./img/");
   
   for ( size_t xloc = 0; xloc<cells->width; ++xloc){
     // temp image

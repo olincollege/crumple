@@ -216,6 +216,7 @@ parsed_tile_textblock* parse_individual_tile_config_textblock(
           NUM_EDGES);
   // NOLINTNEXTLINE
   strncpy(edges_ + NUM_EDGES, "\0", 1);
+  printf("%s\n",im_name_);
   if (!fopen(im_name_, "re")) {
     error_and_exit("error with im name");
   }
