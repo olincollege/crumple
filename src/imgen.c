@@ -1,3 +1,4 @@
+#include <math.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,9 +15,15 @@
 #include <stb/stb_image_write.h>
 
 // default image width, height
-#define HEIGHT 1080
-#define WIDTH 1080
+#define DEFAULT_BLOCK 150
 
+static inline bool str_ends_in(const char*str, const char *ends){
+  size_t str_len = strlen(str);
+  size_t ends_len = strlen(ends);
+  char* pos = strstr(str,ends);
+  return (pos!=NULL) && (pos+ends_len==str+str_len);
+
+}
 
 void image_free(Image *img){
   if(img->allocation_ != NO_ALLOCATION && img->data !=NULL){
@@ -73,7 +80,7 @@ void image_save(Image *img, const char *filename){
     stbi_write_png(filename, img->width, img->height, img->channels, img->data,img->width * img->height);
   } 
   else{
-    ON_ERROR_EXIT(false, "Incorrect Image format");
+    error_and_exit("Incorrect Image format");
   }
 }
 
@@ -111,13 +118,15 @@ void make_output(matrix* cells){
    
   Image tile_img, out_img;
 
-  image_create(&out_img, HEIGHT, WIDTH, 3, true); 
-  ON_ERROR_EXIT(tile_img.data==NULL, "Image couldn't be loaded");
+  image_create(&out_img, (size_t)cells->height*DEFAULT_BLOCK, (size_t)cells->width*DEFAULT_BLOCK, 3, true); 
+  if (tile_img.data==NULL){
+    error_and_exit("Image couldn't be loaded");
+  }
   printf("Success!\nCreated BG img (%ix%i), and %i channels\n", out_img.width, out_img.height, out_img.channels);
 
   // move cwd to img folder or add /img/ to filename 
   // @lxbtlr TODO: check where executable is created and adjust this accordingly
-  chdir("../img/");
+  chdir("./img/");
   
   for ( size_t xloc = 0; xloc<cells->width; ++xloc){
     // temp image

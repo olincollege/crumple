@@ -1,18 +1,22 @@
 ---
+#dimensions
+width: 12
+height: 12
+
 #rules
 allow-90-degree-rotations: true
 allow-180-degree-rotations: true
 
 #im_location
-im_location: "./images"
+im_location: "../../test/test_img"
 
 #tiles
 tile:
- - im_name: "jeff.png"
+ - im_name: "tile1.png"
  - edges: "abab"
 
 tile:
- - im_name: "markus.png"
+ - im_name: "tile2.png"
  - edges: "baba"
 
 #EOF

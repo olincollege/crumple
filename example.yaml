@@ -5,12 +5,16 @@ width: 12
 
 #rules
 allow-90-degree-rotations: true
-allow-180-degree-rotations: false
+allow-180-degree-rotations: true
 
 #im_location
-im_location: "../../test/test_img"
+im_location: "./example_imdir"
 
 #tiles
+tile:
+ - im_name: "tile.png"
+ - edges: "aabb"
+
 tile:
  - im_name: "blank.png"
  - edges: "aaaa"
