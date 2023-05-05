@@ -59,7 +59,6 @@ size_t* parse_dimensions_section(char** dimensions_text) {
   while (line) {
     if (strncmp(line, YAML_HEIGHT_DIMENSION_START,
                 strlen(YAML_HEIGHT_DIMENSION_START)) == 0) {
-      size_t height;
       int sscanf_status = sscanf(line, "height: %zu\n", &dimensions[1]);
       if (sscanf_status != 1) {
         error_and_exit("error parsing height");
@@ -76,7 +75,7 @@ size_t* parse_dimensions_section(char** dimensions_text) {
     line = dimensions_text[index];
   }
   for (size_t i = 0; i < NUM_DIMENSIONS; i++) {
-    if (dimensions[i] == -1) {
+    if (dimensions[i] == 0) {
       error_and_exit("one or more dimensions is unset");
     }
   }
@@ -161,7 +160,6 @@ tile_textblock** add_to_tile_textblock_array(tile_textblock** current_array,
       realloc(current_array, sizeof(tile_textblock*) * (*curr_len + 1));
   updated_array[*curr_len] = block_to_add;
   (*curr_len)++;
-  // need to free the memory in the tile_textblock array
   return updated_array;
 }
 
@@ -285,6 +283,3 @@ matrix* generate_matrix(char* input_yaml_filename) {
   free(sectioned_yaml);
   return matrix_;
 }
-
-
-
