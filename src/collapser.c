@@ -17,7 +17,7 @@ coords find_lowest_entropy(matrix* cells) {
   return lowest_loc;
 }
 
-void collapse_lowest_entropy(matrix *cells, unsigned int* seed) {
+coords collapse_lowest_entropy(matrix *cells, unsigned int* seed) {
   coords lowest_loc = find_lowest_entropy(cells);
   cell* collapse_cell = &cells->array[lowest_loc.x][lowest_loc.y];
 
@@ -39,6 +39,7 @@ void collapse_lowest_entropy(matrix *cells, unsigned int* seed) {
   }
 
   collapse_cell->entropy = 1;
+  return lowest_loc;
 }
 
 void update_neighbors(matrix* cells, coords loc) {
