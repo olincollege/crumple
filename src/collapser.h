@@ -8,7 +8,7 @@
 * Skips cells with one possibility (i.e. collapsed) because those are already
 * determined.
 * If multiple cells share the lowest non-one entropy, select the one with the
-* lowest row/column value. (i.e. the first one that comes up in row/col nested
+* highest row/column value. (i.e. the last one that comes up in row/col nested
 * for loops.)
 * 
 * @param cells The matrix of cells to be searched.
