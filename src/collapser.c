@@ -68,6 +68,7 @@ void update_neighbors(matrix* cells, coords loc) {
       tile* check_tile = neighbor->possibilities[poss_num];
       if (check_tile->edges[check_dir] != self_tile->edges[dir]) {
         neighbor->possibilities[poss_num] = NULL;
+        neighbor->entropy -= 1;
       }
     }
   }
