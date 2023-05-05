@@ -12,7 +12,7 @@ im_location: "../../test/test_img"
 
 #tiles
 tile:
- - im_name: "tile.png"
+ - im_name: "tile1.png"
  - edges: "abab"
 
 tile:
