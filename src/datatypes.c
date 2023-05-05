@@ -58,7 +58,11 @@ cell* make_cell(tile** tiles, size_t num_tiles){
   
   cell* cell_ = malloc(sizeof(cell));
   cell_->entropy = num_tiles; 
-  cell_->possibilities = tiles;
+  tile** possp = malloc(sizeof(tiles));
+  for (size_t i = 0; i<num_tiles; ++i){
+    possp[i]= tiles[i];
+  }
+  cell_->possibilities = possp;
   return cell_;
 }
   
