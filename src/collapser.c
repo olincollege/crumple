@@ -6,15 +6,10 @@ coords find_lowest_entropy(matrix* cells) {
   size_t lowest_entropy = cells->num_tiles;
   for (size_t col = 0; col < cells->width; col++) {
     for (size_t row = 0; row < cells->height; row++) {
-      // change to <= to use the first-checked lowest rather than the last
-      
-      printf("col:%zu,row:%zu\n",col,row);
-      //printf("(outside) BIG IFFY\n");
-      if (cells->array[col][row].entropy < lowest_entropy && cells->array[col][row].entropy != 1) {
+      if (cells->array[col][row].entropy <= lowest_entropy && cells->array[col][row].entropy != 1) {
         
         lowest_loc.x = col;
         lowest_loc.y = row;
-        printf("lowest_loc: %zu,%zu\n",lowest_loc.x,lowest_loc.y);
       }
     }
   }
@@ -24,23 +19,21 @@ coords find_lowest_entropy(matrix* cells) {
 
 coords collapse_lowest_entropy(matrix *cells, unsigned int* seed) {
   coords lowest_loc = find_lowest_entropy(cells);
-  printf("%zu, %zu", lowest_loc.x,lowest_loc.y);
   cell* collapse_cell = &cells->array[lowest_loc.x][lowest_loc.y];
+  printf("collapsing (%zu, %zu) with entropy of %zu\n", lowest_loc.x,lowest_loc.y, collapse_cell->entropy);
 
-  if (collapse_cell->entropy != 1) {
-    int selected_tile = rand_r(seed) % (int) collapse_cell->entropy;
-    int valid_tile_num = 0;
-  
-    for (int i = 0; i < cells->num_tiles; i++) {
-      if (collapse_cell->possibilities[i] != NULL) {
-        if (valid_tile_num == selected_tile) {
-          // do stuff
-        } else {
-          collapse_cell->possibilities[i] = NULL;
-        }
+  int selected_tile = rand_r(seed) % (int) collapse_cell->entropy;
+  int valid_tile_num = 0;
 
-        valid_tile_num++;
+  printf("selected random tile %d out of %zu\n", selected_tile, collapse_cell->entropy);
+
+  for (int i = 0; i < cells->num_tiles; i++) {
+    if (collapse_cell->possibilities[i] != NULL) {
+      if (valid_tile_num != selected_tile) {
+        collapse_cell->possibilities[i] = NULL;
       }
+
+      valid_tile_num++;
     }
   }
 
@@ -55,19 +48,22 @@ void update_neighbors(matrix* cells, coords loc) {
     // make sure we're not looking out of bounds
     int x_diff = X_OFFSET[dir];
       // potential ulong underflow error -- deal with this
-    if (loc.x + x_diff < 0 || loc.x + x_diff > cells->width) { continue; }
+    if (loc.x == 0 && x_diff < 0) { continue; }
+    if (loc.x + x_diff >= cells->width) { continue; }
     
     int y_diff = Y_OFFSET[dir];
-    if (loc.y + y_diff < 0 || loc.y + y_diff > cells->height) { continue; }
+    if (loc.y == 0 && y_diff < 0) { continue; }
+    if (loc.y + y_diff >= cells->height) { continue; }
 
     // define the edge to check on the neighbor-tile
     size_t check_dir = (dir + 2) % 4;
 
+    printf("(%zu, %zu) checking neighbor (%zu, %zu)\n", loc.x, loc.y, loc.x+x_diff, loc.y+y_diff);
     cell* neighbor = &cells->array[loc.x + x_diff][loc.y + y_diff];
 
     for (size_t poss_num = 0; poss_num < cells->num_tiles; poss_num++) {
       // check if the tile is possible or not
-      if (neighbor->possibilities + poss_num == NULL) { continue; }
+      if (neighbor->possibilities[poss_num] == NULL) { continue; }
 
       tile* check_tile = neighbor->possibilities[poss_num];
       if (check_tile->edges[check_dir] != self_tile->edges[dir]) {

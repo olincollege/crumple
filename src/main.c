@@ -34,19 +34,18 @@ int main(int argc, char* argv[]) {
     size_t ced = 1;
     for (size_t xloc = 0; xloc<mat->width;++xloc){
       for (size_t yloc = 0; yloc<mat->height;++yloc){
-        printf("x:%zu y:%zu\n",xloc, yloc );
         if( mat->array[xloc][yloc].entropy!= 1){
           ced =0;
         }
-        printf("ced:%zu\n",ced);
       }
     }
     printf("CHECKED ALL CELLS\n");
     if (ced !=1){
       
-      printf("entropy !=1\n");
+      printf("matrix not collapsed. repeating...\n");
       coords c_low_ent = collapse_lowest_entropy(mat,&seed);
-      printf("lowest_entropy_coords:%zu,%zu",c_low_ent.x,c_low_ent.y);
+      printf("collapsed (%zu,%zu)\n",c_low_ent.x,c_low_ent.y);
+      printf("updating neighbors...\n");
       update_neighbors(mat, c_low_ent);
     }
     else{
