@@ -7,9 +7,14 @@ coords find_lowest_entropy(matrix* cells) {
   for (size_t col = 0; col < cells->width; col++) {
     for (size_t row = 0; row < cells->height; row++) {
       // change to <= to use the first-checked lowest rather than the last
+      
+      printf("col:%zu,row:%zu\n",col,row);
+      //printf("(outside) BIG IFFY\n");
       if (cells->array[col][row].entropy < lowest_entropy && cells->array[col][row].entropy != 1) {
+        
         lowest_loc.x = col;
         lowest_loc.y = row;
+        printf("lowest_loc: %zu,%zu\n",lowest_loc.x,lowest_loc.y);
       }
     }
   }
@@ -19,6 +24,7 @@ coords find_lowest_entropy(matrix* cells) {
 
 coords collapse_lowest_entropy(matrix *cells, unsigned int* seed) {
   coords lowest_loc = find_lowest_entropy(cells);
+  printf("%zu, %zu", lowest_loc.x,lowest_loc.y);
   cell* collapse_cell = &cells->array[lowest_loc.x][lowest_loc.y];
 
   if (collapse_cell->entropy != 1) {
