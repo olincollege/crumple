@@ -54,6 +54,15 @@ void free_parsed_tile_textblock(parsed_tile_textblock* parsed_tile_textblock_) {
   free(parsed_tile_textblock_);
 }
 
+cell* make_cell(tile** tiles, size_t num_tiles){
+  
+  cell* cell_ = malloc(sizeof(cell));
+  cell_->entropy = num_tiles; 
+  cell_->possibilities = tiles;
+  return cell_;
+}
+  
+
 tile* make_tile(char* image_file, size_t rotation, char* edges_orig) {
   tile* tile_ = malloc(sizeof(tile));
   char* tile_image = malloc((strlen(image_file) + 1) * sizeof(char));
@@ -66,6 +75,19 @@ tile* make_tile(char* image_file, size_t rotation, char* edges_orig) {
   return tile_;
 }
 
+matrix* make_matrix(cell** cells, size_t height, size_t width, size_t num_tiles, tile** alltiles){
+
+  matrix* matrix_ = malloc(sizeof(matrix));
+  matrix_->array = cells;
+  matrix_->height = height;
+  matrix_->width= width;
+  matrix_->all_tiles= alltiles;
+  matrix_->num_tiles= num_tiles;
+
+  return matrix_;
+}
+
+
 int free_tile(tile* tile_) {
   free(tile_->edges);
   free(tile_);
@@ -75,7 +97,7 @@ int free_tile(tile* tile_) {
 split_yaml* make_split_yaml(char** rules_section_, char** imdir_section_,
                             char** tiles_section_) {
   split_yaml* split_yaml_ = malloc(sizeof(split_yaml));
-  split_yaml_->rules_section = rules_section_;
+  *split_yaml_->rules_section = rules_section_;
   split_yaml_->imdir_section = imdir_section_;
   split_yaml_->tiles_section = tiles_section_;
   return split_yaml_;

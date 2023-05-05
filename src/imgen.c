@@ -73,7 +73,7 @@ void image_save(Image *img, const char *filename){
     stbi_write_png(filename, img->width, img->height, img->channels, img->data,img->width * img->height);
   } 
   else{
-    ON_ERROR_EXIT(false, "Incorrect Image format");
+    exit_on_error("Incorrect Image format");
   }
 }
 
@@ -112,7 +112,9 @@ void make_output(matrix* cells){
   Image tile_img, out_img;
 
   image_create(&out_img, HEIGHT, WIDTH, 3, true); 
-  ON_ERROR_EXIT(tile_img.data==NULL, "Image couldn't be loaded");
+  if (tile_img.data==NULL){
+    exit_on_error("Image couldn't be loaded");
+  }
   printf("Success!\nCreated BG img (%ix%i), and %i channels\n", out_img.width, out_img.height, out_img.channels);
 
   // move cwd to img folder or add /img/ to filename 

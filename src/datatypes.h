@@ -52,7 +52,7 @@ typedef struct {
   size_t width;
   cell** array;
   size_t num_tiles;
-  tile* all_tiles;
+  tile** all_tiles;
 
 } matrix;
 
@@ -97,8 +97,10 @@ void free_parsed_tile_textblock(parsed_tile_textblock* parsed_tile_textblock_);
 
 int free_matrix(matrix* matp);
 
-cell* make_cell(tile* tiles);
+cell* make_cell(tile** tiles, size_t num_tiles);
 // init entropy upon first cycle of main loop
+
+matrix* make_matrix(cell** cells, size_t height, size_t width, size_t num_tiles, tile** alltiles);
 
 int free_cell(cell* cellp);
 
