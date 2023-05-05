@@ -1,5 +1,6 @@
 #include "helpers.h"
 
+#include <stddef.h>
 #include <stdio.h>   // perror
 #include <stdlib.h>  // exit, EXIT_FAILURE
 
