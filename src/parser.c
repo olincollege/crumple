@@ -216,8 +216,9 @@ parsed_tile_textblock* parse_individual_tile_config_textblock(
           NUM_EDGES);
   // NOLINTNEXTLINE
   strncpy(edges_ + NUM_EDGES, "\0", 1);
-  printf("%s\n",im_name_);
+  // printf("%s\n", im_name_);
   if (!fopen(im_name_, "re")) {
+    printf("im name that causes error: %s\n", im_name_);
     error_and_exit("error with im name");
   }
 
@@ -303,7 +304,6 @@ matrix* generate_matrix(char* input_yaml_filename) {
 
   matrix* matrix_ =
       make_matrix(cell_array, dimensions[1], dimensions[0], tiles_len, tiles);
-  
 
   free(im_location);
   free(rules);  // gotta valgrind all this shit
