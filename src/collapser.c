@@ -48,19 +48,22 @@ void update_neighbors(matrix* cells, coords loc) {
     // make sure we're not looking out of bounds
     int x_diff = X_OFFSET[dir];
       // potential ulong underflow error -- deal with this
-    if (loc.x + x_diff < 0 || loc.x + x_diff > cells->width) { continue; }
+    if (loc.x == 0 && x_diff < 0) { continue; }
+    if (loc.x + x_diff >= cells->width) { continue; }
     
     int y_diff = Y_OFFSET[dir];
-    if (loc.y + y_diff < 0 || loc.y + y_diff > cells->height) { continue; }
+    if (loc.y == 0 && y_diff < 0) { continue; }
+    if (loc.y + y_diff >= cells->height) { continue; }
 
     // define the edge to check on the neighbor-tile
     size_t check_dir = (dir + 2) % 4;
 
+    printf("(%zu, %zu) checking neighbor (%zu, %zu)\n", loc.x, loc.y, loc.x+x_diff, loc.y+y_diff);
     cell* neighbor = &cells->array[loc.x + x_diff][loc.y + y_diff];
 
     for (size_t poss_num = 0; poss_num < cells->num_tiles; poss_num++) {
       // check if the tile is possible or not
-      if (neighbor->possibilities + poss_num == NULL) { continue; }
+      if (neighbor->possibilities[poss_num] == NULL) { continue; }
 
       tile* check_tile = neighbor->possibilities[poss_num];
       if (check_tile->edges[check_dir] != self_tile->edges[dir]) {
