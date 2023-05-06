@@ -46,3 +46,5 @@ GCC 12.1.0 (other compilers may work but are not guaranteed to.)
 
 ## Known Bugs
 When inputting image filenames, an extra character is sometimes added to the end during parsing for unknown reasons, which causes issues. Putting the tiles configurations with the shorter (length) names first in the yaml may fix this, as may changing the filenames.
+
+Running the parser tests causes malloc errors on some machines and run smoothly on others. The cause of this is unknown. These tests all run successfully on at least one (Han) team member's machine.  An example error message: `malloc(): invalid size (unsorted)`
